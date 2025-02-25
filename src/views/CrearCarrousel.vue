@@ -112,6 +112,8 @@ export default {
       this.$router.push({ path: '/recinto', query: { initialActiveIndex: 1 } });
     } else if (item.title === 'Actividad') {
       this.$router.push({ path: '/crear', query: { initialActiveIndex: 0 } });
+    } else if (item.title === "Parcela"){
+      this.$router.push({path: '/parcela', query:{initialActiveIndex: 2 } });
     }
   }
 }

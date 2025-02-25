@@ -5,6 +5,8 @@ import CrearActividadPage from '../views/CrearActividad.vue';
 import CrearCarrousel from '../views/CrearCarrousel.vue';
 import CrearRecinto from '../views/CrearRecinto.vue'; 
 import MenuPage from '../views/Menu.vue';
+import RecintoSIGPAC from '@/views/RecintoSIGPAC.vue';
+import RecintosSIGPAC2 from '@/views/RecintosSIGPAC2.vue';
 
 const routes = [
   {
@@ -34,13 +36,23 @@ const routes = [
   {
     path: '/recinto',
     name: 'CrearRecinto',
-    component: CrearRecinto // Se añade la nueva ruta
+    component: CrearRecinto 
   },
   {
     path: '/menu',
     name: 'Menu',
     component: MenuPage
-  }
+  },
+  {
+    path: '/recintos-sigpac',
+    name: 'RecintosSIGPAC',
+    component: RecintoSIGPAC 
+  },
+  {
+  path: '/recintos-sigpac2',
+  name: 'RecintosSIGPAC2',
+  component: RecintosSIGPAC2 
+}
 ];
 
 const router = createRouter({

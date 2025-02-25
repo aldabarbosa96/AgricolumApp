@@ -65,8 +65,9 @@ export default {
       }
     },
     handleGlobalClick() {
-      // Al hacer click fuera del carousel, se oculta el carousel
-      this.showCarousel = false;
+      // Navega a la vista RecintosSIGPAC
+      this.$router.push('/recintos-sigpac');
+    
     }
   }
 };

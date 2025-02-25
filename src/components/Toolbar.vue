@@ -35,11 +35,14 @@ export default {
     IonFooter
   },
   computed: {
-    // Se extrae el item activo a partir de la ruta actual
-    selectedItem() {
-      // Si la ruta es, por ejemplo, '/home', se extrae 'home'
-      return this.$route.path.replace('/', '') || 'home';
+  selectedItem() {
+    let path = this.$route.path.replace('/', '') || 'home';
+    if (path === 'recinto' || path === 'recintos-sigpac') {
+      return 'carrousel';
     }
+    return path;
+  }
+
   },
   methods: {
     selectItem(item) {
