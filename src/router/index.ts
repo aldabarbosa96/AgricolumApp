@@ -9,6 +9,7 @@ import RecintoSIGPAC from '@/views/RecintoSIGPAC.vue';
 import RecintosSIGPAC2 from '@/views/RecintosSIGPAC2.vue';
 import CrearRecinto2 from '@/views/CrearRecinto2.vue';
 import RecintoDibujo from '@/views/RecintoDibujo.vue';
+import Recintos from '@/views/Recintos.vue';
 
 const routes = [
   {
@@ -64,7 +65,12 @@ component: CrearRecinto2
   path: '/recintos-dibujo',
   name: 'RecintoDibujo',
   component: RecintoDibujo
-}
+},
+{
+  path: '/recintos',
+  name: 'Recinto',
+  component: Recintos
+},
 ];
 
 const router = createRouter({

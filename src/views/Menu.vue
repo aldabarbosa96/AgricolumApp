@@ -89,7 +89,7 @@
     },
     methods: {
       goToCampos() {
-        this.$router.push('/campos');
+        this.$router.push('/recintos');
       },
       goToFertilizacion() {
         this.$router.push('/fertilizacion');
