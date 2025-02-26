@@ -23,7 +23,6 @@
     methods: {
       onCancel() {
         this.$emit('cancel');
-        this.$router.push({ name: 'Home' });
       },
       onSave() {
         this.$emit('save');

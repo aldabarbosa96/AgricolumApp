@@ -37,7 +37,7 @@
           <!-- Opción: Campo -->
           <div class="option-item">
             <div class="option-left">
-              <img src="/Location.png" alt="Icono Campo" class="option-icon" />
+              <img src="/Location3.png" alt="Icono Campo" class="option-icon" />
               <span class="option-label">Campo</span>
             </div>
             <ion-button fill="clear" color="success" class="option-plus">+</ion-button>
@@ -133,7 +133,7 @@ export default {
   methods: {
     handleCancel() {
       console.log("Has pulsado Cancelar");
-      // Lógica para cancelar (puedes agregar navegación u otra acción)
+      this.$router.push({ name: 'Home' });
     },
     handleSave() {
       console.log("Has pulsado Guardar");
@@ -300,4 +300,5 @@ ion-checkbox::part(checkmark) {
   font-size: 20px;
   margin: 0;
 }
+
 </style>

@@ -1,15 +1,12 @@
 <template>
   <ion-page>
-    <!-- Cabecera con título -->
     <ion-header class="custom-header">
       <ion-title class="title">Nueva Actividad</ion-title>
     </ion-header>
 
-    <!-- Contenido principal con handler global de click -->
     <ion-content
       class="ion-padding custom-content"
-      :style="{'--background': '#fff', '--padding-top': '8px'}"
-      @click="handleGlobalClick"
+      style="position: relative; --background: #fff; --padding-top: 8px;"
     >
       <!-- Divider superior -->
       <div class="divider top-divider"></div>
@@ -37,7 +34,7 @@
         <!-- Opción: Campo -->
         <div class="option-item">
           <div class="option-left">
-            <img src="/Location.png" alt="Icono Campo" class="option-icon" />
+            <img src="/Location3.png" alt="Icono Campo" class="option-icon" />
             <span class="option-label">Campo</span>
           </div>
           <ion-button fill="clear" color="success" class="option-plus">+</ion-button>
@@ -67,9 +64,7 @@
             <img src="/Calendar.png" alt="Icono Fecha" class="option-icon" />
             <span class="option-label">Fecha</span>
           </div>
-          <div class="option-date">
-            19 / 12 / 2024
-          </div>
+          <div class="option-date">19 / 12 / 2024</div>
         </div>
       </div>
 
@@ -84,8 +79,8 @@
         <div class="attachment-item">Documentos</div>
       </div>
 
-      <!-- Componente del carrusel -->
-      <CarouselComponent @item-selected="handleItemSelected" />
+      <!-- Componente del carrusel posicionado igual en ambas views -->
+      <CarouselComponent class="carousel-bottom" @item-selected="handleItemSelected" />
     </ion-content>
   </ion-page>
 </template>
@@ -106,18 +101,16 @@ export default {
     CarouselComponent
   },
   methods: {
-  handleItemSelected(item) {
-    if (item.title === 'Recinto') {
-      // Navega a /recinto pasando el índice seleccionado en la query
-      this.$router.push({ path: '/recinto', query: { initialActiveIndex: 1 } });
-    } else if (item.title === 'Actividad') {
-      this.$router.push({ path: '/crear', query: { initialActiveIndex: 0 } });
-    } else if (item.title === "Parcela"){
-      this.$router.push({path: '/parcela', query:{initialActiveIndex: 2 } });
+    handleItemSelected(item) {
+      if (item.title === 'Recinto') {
+        this.$router.push({ path: '/recinto', query: { initialActiveIndex: 1 } });
+      } else if (item.title === 'Actividad') {
+        this.$router.push({ path: '/crear', query: { initialActiveIndex: 0 } });
+      } else if (item.title === 'Recinto*') {
+        this.$router.push({ path: '/recinto2', query: { initialActiveIndex: 2 } });
+      }
     }
   }
-}
-
 };
 </script>
 
@@ -175,8 +168,6 @@ ion-header.custom-header {
 
 .option-plus {
   font-size: 25px;
-  --padding-start: 0;
-  --padding-end: 0;
   margin-right: 20px;
 }
 
@@ -228,5 +219,13 @@ ion-checkbox::part(checkmark) {
   color: #333;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+}
+
+/* Posición común del carrusel */
+.carousel-bottom {
+  position: absolute;
+  bottom: 35px;
+  left: 0;
+  right: 0;
 }
 </style>
