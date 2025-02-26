@@ -63,12 +63,11 @@
         }
         // Si se pulsa el item "Recinto" con lápiz, puedes hacer otra cosa o dejarlo así.
         else if (item.title === 'Recinto' && item.pencil) {
-          // Aquí podrías mostrar un mensaje, o simplemente no hacer nada.
-          alert('Estás en CrearRecintos2. Aquí puedes implementar la acción deseada.');
+          this.$router.push({ path: '/recintos-dibujo', query: { initialActiveIndex: 1 } });
         }
       },
       handleGlobalClick() {
-        this.$router.push('/recintos-sigpac');
+        this.$router.push('/recintos-dibujo');
       }
     }
   };

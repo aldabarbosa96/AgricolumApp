@@ -68,10 +68,6 @@ export default {
       else if (item.title === 'Recinto' && item.pencil) {
         this.$router.push({ path: '/recinto2', query: { initialActiveIndex: 2 } });
       }
-      // Si tuvieras otro item, por ejemplo "Parcela":
-      else if (item.title === 'Parcela') {
-        this.$router.push({ path: '/parcela', query: { initialActiveIndex: 2 } });
-      }
     },
     handleGlobalClick() {
       this.$router.push('/recintos-sigpac');

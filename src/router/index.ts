@@ -8,6 +8,7 @@ import MenuPage from '../views/Menu.vue';
 import RecintoSIGPAC from '@/views/RecintoSIGPAC.vue';
 import RecintosSIGPAC2 from '@/views/RecintosSIGPAC2.vue';
 import CrearRecinto2 from '@/views/CrearRecinto2.vue';
+import RecintoDibujo from '@/views/RecintoDibujo.vue';
 
 const routes = [
   {
@@ -59,6 +60,11 @@ path: '/recinto2',
 name: 'CrearRecinto2',
 component: CrearRecinto2
 },
+{
+  path: '/recintos-dibujo',
+  name: 'RecintoDibujo',
+  component: RecintoDibujo
+}
 ];
 
 const router = createRouter({

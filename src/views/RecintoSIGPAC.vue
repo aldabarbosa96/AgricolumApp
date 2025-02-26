@@ -10,7 +10,7 @@
       :style="{'--background': 'transparent'}"
     >
       <div class="map-container" @click.stop="handleMapClick">
-        <img src="/mapaRecintos.png" alt="Mapa de Recintos" class="map-image" />
+        <img src="/mapa2.png" alt="Mapa de Recintos" class="map-image" />
       </div>
 
       <FloatingButtons />

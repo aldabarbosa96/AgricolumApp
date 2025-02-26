@@ -28,21 +28,15 @@
 </template>
 
 <script>
-import { IonFooter } from '@ionic/vue';
-
 export default {
-  components: {
-    IonFooter
-  },
   computed: {
-  selectedItem() {
-    let path = this.$route.path.replace('/', '') || 'home';
-    if (path === 'recinto' || path === 'recintos-sigpac') {
-      return 'carrousel';
+    selectedItem() {
+      let path = this.$route.path.replace('/', '') || 'home';
+      if (path === 'recinto' || path === 'recintos-sigpac' || path === 'recintos-dibujo') {
+        return 'carrousel'; 
+      }
+      return path;
     }
-    return path;
-  }
-
   },
   methods: {
     selectItem(item) {
@@ -51,6 +45,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 .custom-footer {

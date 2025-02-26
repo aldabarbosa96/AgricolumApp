@@ -13,65 +13,69 @@
 
       <!-- Sección de opciones principales -->
       <div class="options-list">
-        <!-- Opción: Tipo -->
         <div class="option-item">
           <div class="option-left">
             <img src="/List.png" alt="Icono Tipo" class="option-icon" />
             <span class="option-label">Tipo</span>
           </div>
-          <ion-button fill="clear" color="success" class="option-plus">+</ion-button>
+          <div class="option-right">
+            <ion-button fill="clear" color="success" class="option-plus">+</ion-button>
+          </div>
         </div>
 
-        <!-- Opción: Planificada (checkbox) -->
         <div class="option-item">
           <div class="option-left">
             <img src="/Tasklist.png" alt="Icono Planificada" class="option-icon" />
             <span class="option-label">Planificada</span>
           </div>
-          <ion-checkbox color="success" class="option-plus"></ion-checkbox>
+          <div class="option-right">
+            <ion-checkbox color="success"></ion-checkbox>
+          </div>
         </div>
 
-        <!-- Opción: Campo -->
         <div class="option-item">
           <div class="option-left">
             <img src="/Location3.png" alt="Icono Campo" class="option-icon" />
             <span class="option-label">Campo</span>
           </div>
-          <ion-button fill="clear" color="success" class="option-plus">+</ion-button>
+          <div class="option-right">
+            <ion-button fill="clear" color="success" class="option-plus">+</ion-button>
+          </div>
         </div>
 
-        <!-- Opción: Trabajadores -->
         <div class="option-item">
           <div class="option-left">
             <img src="/Worker.png" alt="Icono Trabajadores" class="option-icon" />
             <span class="option-label">Trabajadores</span>
           </div>
-          <ion-button fill="clear" color="success" class="option-plus">+</ion-button>
+          <div class="option-right">
+            <ion-button fill="clear" color="success" class="option-plus">+</ion-button>
+          </div>
         </div>
 
-        <!-- Opción: Maquinaria -->
         <div class="option-item">
           <div class="option-left">
             <img src="/Tractor.png" alt="Icono Maquinaria" class="option-icon" />
             <span class="option-label">Maquinaria</span>
           </div>
-          <ion-button fill="clear" color="success" class="option-plus">+</ion-button>
+          <div class="option-right">
+            <ion-button fill="clear" color="success" class="option-plus">+</ion-button>
+          </div>
         </div>
 
-        <!-- Opción: Fecha -->
         <div class="option-item">
           <div class="option-left">
             <img src="/Calendar.png" alt="Icono Fecha" class="option-icon" />
             <span class="option-label">Fecha</span>
           </div>
-          <div class="option-date">19 / 12 / 2024</div>
+          <div class="option-right option-date">
+            19 / 12 / 2024
+          </div>
         </div>
       </div>
 
-      <!-- Divider inferior -->
       <div class="divider bottom-divider"></div>
 
-      <!-- Sección de Albarán, Notas, Fotos, Documentos -->
       <div class="attachments">
         <div class="attachment-item">Albarán</div>
         <div class="attachment-item">Notas</div>
@@ -79,7 +83,6 @@
         <div class="attachment-item">Documentos</div>
       </div>
 
-      <!-- Componente del carrusel posicionado igual en ambas views -->
       <CarouselComponent class="carousel-bottom" @item-selected="handleItemSelected" />
     </ion-content>
   </ion-page>
@@ -152,6 +155,13 @@ ion-header.custom-header {
   gap: 10px;
 }
 
+.option-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px; /* Asegura un ancho adecuado para la fecha */
+}
+
 .option-icon {
   width: 24px;
   height: 24px;
@@ -168,7 +178,6 @@ ion-header.custom-header {
 
 .option-plus {
   font-size: 25px;
-  margin-right: 20px;
 }
 
 ion-checkbox::part(container) {
@@ -187,7 +196,9 @@ ion-checkbox::part(checkmark) {
 .option-date {
   font-size: 16px;
   color: #333;
-  margin-right: 20px;
+  text-align: right;
+  margin-right: 25px;
+  white-space: nowrap;
 }
 
 .divider {
@@ -221,7 +232,6 @@ ion-checkbox::part(checkmark) {
   cursor: pointer;
 }
 
-/* Posición común del carrusel */
 .carousel-bottom {
   position: absolute;
   bottom: 35px;

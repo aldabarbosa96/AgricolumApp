@@ -1,5 +1,4 @@
 <template>
-  <!-- Se añade la clase de fade-out a la ion-page cuando corresponda -->
   <ion-page :class="{ 'fade-out': fadeOut }">
     <ion-header class="custom-header">
       <ion-title class="title">Nueva Actividad</ion-title>
@@ -9,20 +8,29 @@
       class="ion-padding custom-content"
       :style="{'--background': '#fff', '--padding-top': '8px', position: 'relative'}"
     >
-      <!-- Contenedor principal que se difumina cuando aparece el popup -->
       <div class="content-wrapper" :class="{ blur: showSuccessPopup }">
-        <!-- Divider superior -->
         <div class="divider top-divider"></div>
 
         <!-- Lista de opciones -->
         <div class="options-list">
-          <!-- Opción: Tipo -->
+          <!-- Opción: Tipo (con IonPopover) -->
           <div class="option-item">
             <div class="option-left">
               <img src="/List.png" alt="Icono Tipo" class="option-icon" />
-              <span class="option-label">Tipo</span>
+              <span class="option-label">
+                Tipo:
+                <span v-if="selectedTipo">{{ selectedTipo }}</span>
+                <span v-else>Sin seleccionar</span>
+              </span>
             </div>
-            <ion-button fill="clear" color="success" class="option-plus">+</ion-button>
+            <ion-button
+              fill="clear"
+              color="success"
+              class="option-plus"
+              @click="openTipoPopover($event)"
+            >
+              +
+            </ion-button>
           </div>
 
           <!-- Opción: Planificada (checkbox) -->
@@ -31,34 +39,73 @@
               <img src="/Tasklist.png" alt="Icono Planificada" class="option-icon" />
               <span class="option-label">Planificada</span>
             </div>
-            <ion-checkbox color="success" class="option-plus"></ion-checkbox>
+            <ion-checkbox
+              color="success"
+              class="option-plus"
+              v-model="isPlanificada"
+            ></ion-checkbox>
           </div>
 
-          <!-- Opción: Campo -->
+          <!-- Opción: Campo (con IonPopover) -->
           <div class="option-item">
             <div class="option-left">
               <img src="/Location3.png" alt="Icono Campo" class="option-icon" />
-              <span class="option-label">Campo</span>
+              <span class="option-label">
+                Campo:
+                <span v-if="selectedCampo">{{ selectedCampo }}</span>
+                <span v-else>Sin seleccionar</span>
+              </span>
             </div>
-            <ion-button fill="clear" color="success" class="option-plus">+</ion-button>
+            <ion-button
+              fill="clear"
+              color="success"
+              class="option-plus"
+              @click="openCampoPopover($event)"
+            >
+              +
+            </ion-button>
           </div>
 
-          <!-- Opción: Trabajadores -->
+          <!-- Opción: Trabajadores (modal) -->
           <div class="option-item">
             <div class="option-left">
               <img src="/Worker.png" alt="Icono Trabajadores" class="option-icon" />
-              <span class="option-label">Trabajadores</span>
+              <span class="option-label">
+                Trabajadores:
+                <span v-if="selectedTrabajadores.length">
+                  {{ selectedTrabajadores.join(', ') }}
+                </span>
+                <span v-else>Sin seleccionar</span>
+              </span>
             </div>
-            <ion-button fill="clear" color="success" class="option-plus">+</ion-button>
+            <ion-button
+              fill="clear"
+              color="success"
+              class="option-plus"
+              @click="showTrabajadoresModal = true"
+            >
+              +
+            </ion-button>
           </div>
 
-          <!-- Opción: Maquinaria -->
+          <!-- Opción: Maquinaria (con IonPopover) -->
           <div class="option-item">
             <div class="option-left">
               <img src="/Tractor.png" alt="Icono Maquinaria" class="option-icon" />
-              <span class="option-label">Maquinaria</span>
+              <span class="option-label">
+                Maquinaria:
+                <span v-if="selectedMaquinaria">{{ selectedMaquinaria }}</span>
+                <span v-else>Sin seleccionar</span>
+              </span>
             </div>
-            <ion-button fill="clear" color="success" class="option-plus">+</ion-button>
+            <ion-button
+              fill="clear"
+              color="success"
+              class="option-plus"
+              @click="openMaquinariaPopover($event)"
+            >
+              +
+            </ion-button>
           </div>
 
           <!-- Opción: Fecha -->
@@ -73,22 +120,21 @@
           </div>
         </div>
 
-        <!-- Divider inferior -->
         <div class="divider bottom-divider"></div>
 
         <!-- Sección de adjuntos -->
         <div class="attachments">
-          <div class="attachment-item">Albarán</div>
-          <div class="attachment-item">Notas</div>
-          <div class="attachment-item">Fotos</div>
-          <div class="attachment-item">Documentos</div>
+          <div class="attachment-item" @click="showAlbaranModal = true">Albarán</div>
+          <div class="attachment-item" @click="showNotasModal = true">Notas</div>
+          <div class="attachment-item" @click="showFotosModal = true">Fotos</div>
+          <div class="attachment-item" @click="showDocumentosModal = true">Documentos</div>
         </div>
       </div>
 
-      <!-- Popup overlay que cubre todo el contenido -->
+      <!-- Popup de éxito -->
       <div v-if="showSuccessPopup" class="popup-overlay">
         <div class="popup-content">
-          <h2>¡Recinto creado y guardado con éxito!</h2>
+          <h2>Actividad creada y guardada con éxito!</h2>
         </div>
       </div>
     </ion-content>
@@ -99,6 +145,140 @@
       @cancel="handleCancel"
       @save="handleSave"
     />
+
+    <!-- ==================== POPOVERS ==================== -->
+
+    <!-- Popover para TIPO -->
+    <ion-popover
+      :is-open="showTipoPopover"
+      :event="tipoPopoverEvent"
+      @didDismiss="showTipoPopover = false"
+    >
+      <ion-content>
+        <ion-list>
+          <ion-item
+            v-for="(tipo, index) in tipos"
+            :key="index"
+            @click="selectTipo(tipo)"
+          >
+            {{ tipo }}
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-popover>
+
+    <!-- Popover para CAMPO -->
+    <ion-popover
+      :is-open="showCampoPopover"
+      :event="campoPopoverEvent"
+      @didDismiss="showCampoPopover = false"
+    >
+      <ion-content>
+        <ion-list>
+          <ion-item
+            v-for="(campo, index) in campos"
+            :key="index"
+            @click="selectCampo(campo)"
+          >
+            {{ campo }}
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-popover>
+
+    <!-- Popover para MAQUINARIA -->
+    <ion-popover
+      :is-open="showMaquinariaPopover"
+      :event="maquinariaPopoverEvent"
+      @didDismiss="showMaquinariaPopover = false"
+    >
+      <ion-content>
+        <ion-list>
+          <ion-item
+            v-for="(maq, index) in maquinarias"
+            :key="index"
+            @click="selectMaquinaria(maq)"
+          >
+            {{ maq }}
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-popover>
+
+    <!-- ==================== MODALES PARA OTROS ==================== -->
+
+    <!-- Modal para seleccionar Trabajadores -->
+    <ion-modal 
+      :is-open="showTrabajadoresModal"
+      @didDismiss="showTrabajadoresModal = false"
+    >
+      <ion-content>
+        <ion-list>
+          <ion-item
+            v-for="(trabajador, index) in trabajadores"
+            :key="index"
+            @click="toggleTrabajador(trabajador)"
+          >
+            <ion-label>{{ trabajador }}</ion-label>
+            <ion-checkbox
+              slot="end"
+              v-model="selectedTrabajadoresMap[trabajador]"
+            ></ion-checkbox>
+          </ion-item>
+        </ion-list>
+        <ion-button @click="confirmTrabajadores" color="success">Aceptar</ion-button>
+        <ion-button @click="showTrabajadoresModal = false" color="medium">Cerrar</ion-button>
+      </ion-content>
+    </ion-modal>
+
+    <!-- Modal para Albarán -->
+    <ion-modal 
+      :is-open="showAlbaranModal" 
+      @didDismiss="showAlbaranModal = false"
+    >
+      <ion-content>
+        <ion-textarea placeholder="Nº Albarán" v-model="albaranText"></ion-textarea>
+        <ion-button @click="showAlbaranModal = false" color="success">Guardar</ion-button>
+        <ion-button @click="showAlbaranModal = false" color="medium">Cerrar</ion-button>
+      </ion-content>
+    </ion-modal>
+
+    <!-- Modal para Notas -->
+    <ion-modal 
+      :is-open="showNotasModal" 
+      @didDismiss="showNotasModal = false"
+    >
+      <ion-content>
+        <ion-textarea placeholder="Escribe aquí tus notas..." v-model="notasText"></ion-textarea>
+        <ion-button @click="showNotasModal = false" color="success">Guardar</ion-button>
+        <ion-button @click="showNotasModal = false" color="medium">Cerrar</ion-button>
+      </ion-content>
+    </ion-modal>
+
+    <!-- Modal para Fotos -->
+    <ion-modal 
+      :is-open="showFotosModal" 
+      @didDismiss="showFotosModal = false"
+    >
+      <ion-content>
+        <ion-textarea placeholder="Notas sobre las fotos" v-model="fotosText"></ion-textarea>
+        <ion-button @click="showFotosModal = false" color="success">Guardar</ion-button>
+        <ion-button @click="showFotosModal = false" color="medium">Cerrar</ion-button>
+      </ion-content>
+    </ion-modal>
+
+    <!-- Modal para Documentos -->
+    <ion-modal 
+      :is-open="showDocumentosModal" 
+      @didDismiss="showDocumentosModal = false"
+    >
+      <ion-content>
+        <ion-textarea placeholder="Notas sobre los documentos..." v-model="documentosText"></ion-textarea>
+        <ion-button @click="showDocumentosModal = false" color="success">Guardar</ion-button>
+        <ion-button @click="showDocumentosModal = false" color="medium">Cerrar</ion-button>
+      </ion-content>
+    </ion-modal>
+
   </ion-page>
 </template>
 
@@ -109,9 +289,17 @@ import {
   IonTitle,
   IonContent,
   IonButton,
-  IonCheckbox
+  IonCheckbox,
+  IonPopover,
+  IonModal,
+  IonList,
+  IonItem,
+  IonLabel,
+  IonTextarea
 } from '@ionic/vue';
+
 import ConfirmToolbar from '@/components/ConfirmToolbar.vue';
+import router from '@/router';
 
 export default {
   name: "Crear",
@@ -122,32 +310,115 @@ export default {
     IonContent,
     IonButton,
     IonCheckbox,
+    IonPopover,
+    IonModal,
+    IonList,
+    IonItem,
+    IonLabel,
+    IonTextarea,
     ConfirmToolbar
   },
   data() {
     return {
+      // Control de popup de éxito y fade-out
       showSuccessPopup: false,
-      fadeOut: false
+      fadeOut: false,
+
+      // Checkbox "Planificada"
+      isPlanificada: false,
+
+      // ======== POPOVERS PARA TIPO, CAMPO Y MAQUINARIA ========
+      showTipoPopover: false,
+      tipoPopoverEvent: null,
+      showCampoPopover: false,
+      campoPopoverEvent: null,
+      showMaquinariaPopover: false,
+      maquinariaPopoverEvent: null,
+
+      // ======== MODALES PARA OTROS ========
+      showTrabajadoresModal: false,
+      showAlbaranModal: false,
+      showNotasModal: false,
+      showFotosModal: false,
+      showDocumentosModal: false,
+
+      // Datos de ejemplo para seleccionar
+      tipos: ['Tipo A', 'Tipo B', 'Tipo C'],
+      campos: ['Campo 1', 'Campo 2', 'Campo 3'],
+      trabajadores: ['Juan', 'María', 'Pedro', 'Luis'],
+      maquinarias: ['Tractor', 'Cosechadora', 'Camión'],
+
+      // Valores seleccionados
+      selectedTipo: '',
+      selectedCampo: '',
+      selectedTrabajadores: [],
+      selectedTrabajadoresMap: {},
+      selectedMaquinaria: '',
+
+      // Textos para adjuntos
+      albaranText: '',
+      notasText: '',
+      fotosText: '',
+      documentosText: '',
     };
   },
   methods: {
+    // Botones Cancelar / Guardar del ConfirmToolbar
     handleCancel() {
       console.log("Has pulsado Cancelar");
       this.$router.push({ name: 'Home' });
     },
     handleSave() {
       console.log("Has pulsado Guardar");
-      // Muestra el popup
       this.showSuccessPopup = true;
-      // Espera 1 segundo para mostrar el mensaje y luego inicia fade-out
       setTimeout(() => {
         this.fadeOut = true;
-        // Tras 0.5 segundos (duración de la transición), navega a Home
         setTimeout(() => {
           this.$router.push({ name: 'Home' });
         }, 500);
       }, 1000);
-    }
+    },
+
+    // ======== Popover para TIPO ========
+    openTipoPopover(ev) {
+      this.tipoPopoverEvent = ev;
+      this.showTipoPopover = true;
+    },
+    selectTipo(tipo) {
+      this.selectedTipo = tipo;
+      this.showTipoPopover = false;
+    },
+
+    // ======== Popover para CAMPO ========
+    openCampoPopover(ev) {
+      this.campoPopoverEvent = ev;
+      this.showCampoPopover = true;
+    },
+    selectCampo(campo) {
+      this.selectedCampo = campo;
+      this.showCampoPopover = false;
+    },
+
+    // ======== Popover para MAQUINARIA ========
+    openMaquinariaPopover(ev) {
+      this.maquinariaPopoverEvent = ev;
+      this.showMaquinariaPopover = true;
+    },
+    selectMaquinaria(maq) {
+      this.selectedMaquinaria = maq;
+      this.showMaquinariaPopover = false;
+    },
+
+    // ======== Modal para TRABAJADORES ========
+    toggleTrabajador(trabajador) {
+      this.selectedTrabajadoresMap[trabajador] = !this.selectedTrabajadoresMap[trabajador];
+    },
+    confirmTrabajadores() {
+      this.selectedTrabajadores = Object.keys(this.selectedTrabajadoresMap).filter(
+        (key) => this.selectedTrabajadoresMap[key]
+      );
+      this.showTrabajadoresModal = false;
+    },
   }
 };
 </script>
@@ -185,7 +456,7 @@ ion-header.custom-header {
   position: relative;
 }
 
-/* Efecto blur al mostrar el popup */
+/* Efecto blur al mostrar el popup de éxito */
 .blur {
   filter: blur(4px);
   -webkit-filter: blur(4px);
@@ -286,6 +557,7 @@ ion-checkbox::part(checkmark) {
 }
 .popup-content {
   background: #fff;
+  color: #28a745;
   padding: 20px;
   border-radius: 5px;
   text-align: center;
@@ -300,5 +572,4 @@ ion-checkbox::part(checkmark) {
   font-size: 20px;
   margin: 0;
 }
-
 </style>

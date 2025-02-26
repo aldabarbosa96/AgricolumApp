@@ -6,8 +6,13 @@
     </div>
 
     <div class="bottom-sheet-content">
+      <!-- Input para el nombre del recinto -->
+      <div class="input-container">
+        <input type="text" v-model="recintoName" placeholder="Ingrese el nombre del recinto" class="input-field">
+      </div>
+
       <div class="area-info">
-        <span class="area-value">Area 8.3066 ha.</span> <br>
+        <span class="area-value">Área: 8.3066 ha</span> <br>
         <span class="area-text">Lubida bis American 40</span> <br>
         <span class="area-text">Brasemala Hipica Restaurant</span> <br>
         <span class="area-text">TOOL MARKET</span>
@@ -23,6 +28,7 @@ export default {
   name: "BottomSheetArea",
   setup() {
     const isOpen = ref(false);
+    const recintoName = ref(""); // Variable para almacenar el nombre del recinto
 
     function toggleSheet() {
       isOpen.value = !isOpen.value;
@@ -30,6 +36,7 @@ export default {
 
     return {
       isOpen,
+      recintoName,
       toggleSheet
     };
   }
@@ -92,21 +99,43 @@ export default {
   height: 0;
   opacity: 0;
   transition: height 0.8s ease, opacity 0.8s ease;
-  padding: 0; /* Sin padding en estado cerrado */
+  padding: 0;
   color: #333;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding: 10px;
 }
-
 
 .bottom-sheet.expanded .bottom-sheet-content {
   opacity: 1;
-  height: 30vh; /* Altura más pequeña */
+  height: 35vh;
   overflow-y: auto;
 }
 
+/* ----------------------------------
+   Input del Nombre del Recinto
+------------------------------------- */
+.input-container {
+  width: 90%;
+  margin-bottom: 15px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+.input-field:focus {
+  border: 1px solid #28a745; /* Verde */
+}
 
 /* ----------------------------------
    Información del Área
@@ -114,21 +143,20 @@ export default {
 .area-info {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centrar elementos horizontalmente */
+  align-items: center;
 }
-
 
 .area-value {
   font-size: 20px;
   font-weight: bold;
   color: #28a745; /* Verde */
-  margin-bottom: 10px; /* Espacio debajo del valor del área */
+  margin-bottom: 10px;
 }
 
 .area-text {
   font-size: 14px;
   color: #666;
   line-height: 1.4;
-  margin-bottom: 5px; /* Espacio entre líneas de texto */
+  margin-bottom: 5px;
 }
 </style>
