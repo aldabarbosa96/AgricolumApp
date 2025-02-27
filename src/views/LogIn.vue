@@ -12,14 +12,17 @@
 
       <div class="options">
         <label class="rememberMe">
-          <input type="checkbox"> Recuérdame</label>
+          <input type="checkbox"> Recuérdame
+        </label>
         <a href="#" class="forgotPassword">Recuperar contraseña</a>
       </div>
 
       <button class="signInButton" @click="$router.push('/home')">Sign In</button>
 
       <p class="registerText">
-        ¿No tienes cuenta? <a href="#" class="registerLink">Regístrate</a>
+        ¿No tienes cuenta?
+        <!-- Usamos router-link en lugar de <a> para navegación interna -->
+        <router-link to="/registro" class="registerLink">Regístrate</router-link>
       </p>
     </div>
   </div>
@@ -29,13 +32,12 @@
 import StatusBar from '@/components/StatusBar.vue';
 
 export default {
+  name: 'Login',
   components: {
     StatusBar
   }
 }
 </script>
-
-
 
 <style scoped>
 /* Estilos generales */
@@ -70,9 +72,10 @@ export default {
 .rightSideIcon {
   height: 20px;
 }
-.leftSideIcon{
+.leftSideIcon {
   height: 14px;
 }
+
 /* Icono de usuario */
 .userIcon {
   width: 75px;
@@ -107,9 +110,8 @@ export default {
   border-radius: 25px;
   background-color: white;
   color: #000;
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1); 
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
 }
-
 
 /* Opciones de recordar contraseña */
 .options {
@@ -131,14 +133,13 @@ export default {
   color: gray; 
 }
 
-
 .rememberMe input {
   margin-right: 5px;
 }
 
 .forgotPassword {
   text-decoration: none;
-  color:black;
+  color: black;
 }
 
 /* Botón Sign In */
@@ -160,18 +161,17 @@ export default {
   background-color: #28a745 !important; /* Verde al pasar el cursor */
 }
 
-
 /* Texto de registro */
 .registerText {
   color: gray;
   margin-top: 15px;
   font-size: 14px;
-  text-align: center; /* Asegura que el texto esté centrado */
+  text-align: center; 
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 5px; /* Espaciado entre el texto y el enlace */
-  width: 100%; /* Ocupa todo el ancho disponible */
+  gap: 5px; 
+  width: 100%;
 }
 
 .registerLink {
@@ -179,5 +179,4 @@ export default {
   color: black;
   font-weight: bold;
 }
-
 </style>

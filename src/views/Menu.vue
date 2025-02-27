@@ -77,6 +77,7 @@
     IonTitle,
     IonContent
   } from '@ionic/vue';
+import { push } from 'ionicons/icons';
   
   export default {
     name: 'Menu',
@@ -110,7 +111,7 @@
         this.$router.push('/ayuda');
       },
       desconectar() {
-        console.log('Desconectando...');
+        this.$router.push('/login');
       }
     }
   };

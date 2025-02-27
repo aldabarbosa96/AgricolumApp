@@ -61,9 +61,8 @@
         if (item.title === 'Actividad') {
           this.$router.push({ path: '/carrousel', query: { initialActiveIndex: 0 } });
         }
-        // Si se pulsa el item "Recinto" con lápiz, puedes hacer otra cosa o dejarlo así.
-        else if (item.title === 'Recinto' && item.pencil) {
-          this.$router.push({ path: '/recintos-dibujo', query: { initialActiveIndex: 1 } });
+        else if (item.title === 'Recinto' && !item.pencil) {
+          this.$router.push({ path: '/recinto', query: { initialActiveIndex: 1 } });
         }
       },
       handleGlobalClick() {

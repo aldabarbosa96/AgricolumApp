@@ -122,14 +122,63 @@
 
         <div class="divider bottom-divider"></div>
 
-        <!-- Sección de adjuntos -->
+        <!-- Sección de adjuntos con input inline -->
         <div class="attachments">
-          <div class="attachment-item" @click="showAlbaranModal = true">Albarán</div>
-          <div class="attachment-item" @click="showNotasModal = true">Notas</div>
-          <div class="attachment-item" @click="showFotosModal = true">Fotos</div>
-          <div class="attachment-item" @click="showDocumentosModal = true">Documentos</div>
+          <div class="attachment-item">
+            <div class="attachment-title" @click="toggleAttachment('albaran')">Albarán</div>
+            <div v-if="showAlbaranInput" class="attachment-input">
+              <!-- IonInput con estilo Material y subrayado verde -->
+              <ion-input
+                mode="md"
+                v-model="albaranText"
+                placeholder="Nº Albarán"
+              ></ion-input>
+            </div>
+          </div>
+          <div class="attachment-item">
+            <div class="attachment-title" @click="toggleAttachment('notas')">Notas</div>
+            <div v-if="showNotasInput" class="attachment-input">
+              <ion-input
+                mode="md"
+                v-model="notasText"
+                placeholder="Escribe aquí tus notas..."
+              ></ion-input>
+            </div>
+          </div>
+          <div class="attachment-item">
+            <div class="attachment-title" @click="toggleAttachment('fotos')">Fotos</div>
+            <div v-if="showFotosInput" class="attachment-input">
+              <ion-input
+                mode="md"
+                v-model="fotosText"
+                placeholder="Notas sobre las fotos"
+              ></ion-input>
+              <ion-button color="success" @click="takePhoto" style="margin-top: 10px;">Galería
+    </ion-button>
+
+    <!-- Previsualización de la foto -->
+    <img
+      v-if="fotosPreview"
+      :src="fotosPreview"
+      alt="Vista previa"
+      style="width: 100%; max-width: 300px; margin-top: 10px;"
+    />
+ 
+            </div>
+          </div>
+          <div class="attachment-item">
+            <div class="attachment-title" @click="toggleAttachment('documentos')">Documentos</div>
+            <div v-if="showDocumentosInput" class="attachment-input">
+              <ion-input
+                mode="md"
+                v-model="documentosText"
+                placeholder="Notas sobre los documentos..."
+              ></ion-input>
+            </div>
+          </div>
         </div>
       </div>
+ 
 
       <!-- Popup de éxito -->
       <div v-if="showSuccessPopup" class="popup-overlay">
@@ -231,54 +280,6 @@
       </ion-content>
     </ion-modal>
 
-    <!-- Modal para Albarán -->
-    <ion-modal 
-      :is-open="showAlbaranModal" 
-      @didDismiss="showAlbaranModal = false"
-    >
-      <ion-content>
-        <ion-textarea placeholder="Nº Albarán" v-model="albaranText"></ion-textarea>
-        <ion-button @click="showAlbaranModal = false" color="success">Guardar</ion-button>
-        <ion-button @click="showAlbaranModal = false" color="medium">Cerrar</ion-button>
-      </ion-content>
-    </ion-modal>
-
-    <!-- Modal para Notas -->
-    <ion-modal 
-      :is-open="showNotasModal" 
-      @didDismiss="showNotasModal = false"
-    >
-      <ion-content>
-        <ion-textarea placeholder="Escribe aquí tus notas..." v-model="notasText"></ion-textarea>
-        <ion-button @click="showNotasModal = false" color="success">Guardar</ion-button>
-        <ion-button @click="showNotasModal = false" color="medium">Cerrar</ion-button>
-      </ion-content>
-    </ion-modal>
-
-    <!-- Modal para Fotos -->
-    <ion-modal 
-      :is-open="showFotosModal" 
-      @didDismiss="showFotosModal = false"
-    >
-      <ion-content>
-        <ion-textarea placeholder="Notas sobre las fotos" v-model="fotosText"></ion-textarea>
-        <ion-button @click="showFotosModal = false" color="success">Guardar</ion-button>
-        <ion-button @click="showFotosModal = false" color="medium">Cerrar</ion-button>
-      </ion-content>
-    </ion-modal>
-
-    <!-- Modal para Documentos -->
-    <ion-modal 
-      :is-open="showDocumentosModal" 
-      @didDismiss="showDocumentosModal = false"
-    >
-      <ion-content>
-        <ion-textarea placeholder="Notas sobre los documentos..." v-model="documentosText"></ion-textarea>
-        <ion-button @click="showDocumentosModal = false" color="success">Guardar</ion-button>
-        <ion-button @click="showDocumentosModal = false" color="medium">Cerrar</ion-button>
-      </ion-content>
-    </ion-modal>
-
   </ion-page>
 </template>
 
@@ -295,11 +296,13 @@ import {
   IonList,
   IonItem,
   IonLabel,
-  IonTextarea
+  IonTextarea,
+  IonInput
 } from '@ionic/vue';
 
 import ConfirmToolbar from '@/components/ConfirmToolbar.vue';
-import router from '@/router';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+
 
 export default {
   name: "Crear",
@@ -316,6 +319,7 @@ export default {
     IonItem,
     IonLabel,
     IonTextarea,
+    IonInput,
     ConfirmToolbar
   },
   data() {
@@ -337,10 +341,15 @@ export default {
 
       // ======== MODALES PARA OTROS ========
       showTrabajadoresModal: false,
-      showAlbaranModal: false,
-      showNotasModal: false,
-      showFotosModal: false,
-      showDocumentosModal: false,
+
+      // Control de inputs inline para adjuntos
+      showAlbaranInput: false,
+      showNotasInput: false,
+      showFotosInput: false,
+      showDocumentosInput: false,
+
+      fotosText: '',
+      fotosPreview: null,
 
       // Datos de ejemplo para seleccionar
       tipos: ['Tipo A', 'Tipo B', 'Tipo C'],
@@ -363,6 +372,25 @@ export default {
     };
   },
   methods: {
+
+    async takePhoto() {
+      try {
+        const image = await Camera.getPhoto({
+          quality: 90,
+          allowEditing: false,
+          resultType: CameraResultType.DataUrl,  // guardamos en formato dataURL
+          source: CameraSource.Prompt            // Camera, Photos o Prompt (pregunta al usuario)
+        });
+
+        // Asignamos la foto a fotosPreview para mostrarla en <img>
+        this.fotosPreview = image.dataUrl;
+        
+        // Si quieres, también puedes almacenar la foto en base64 en tu variable de "fotosText"
+        // this.fotosText = image.base64String; // si usaras CameraResultType.Base64
+      } catch (error) {
+        console.error('Error al tomar/elegir la foto:', error);
+      }
+    },
     // Botones Cancelar / Guardar del ConfirmToolbar
     handleCancel() {
       console.log("Has pulsado Cancelar");
@@ -418,6 +446,19 @@ export default {
         (key) => this.selectedTrabajadoresMap[key]
       );
       this.showTrabajadoresModal = false;
+    },
+
+    // ======== Toggle para inputs inline de adjuntos ========
+    toggleAttachment(type) {
+      if (type === 'albaran') {
+        this.showAlbaranInput = !this.showAlbaranInput;
+      } else if (type === 'notas') {
+        this.showNotasInput = !this.showNotasInput;
+      } else if (type === 'fotos') {
+        this.showFotosInput = !this.showFotosInput;
+      } else if (type === 'documentos') {
+        this.showDocumentosInput = !this.showDocumentosInput;
+      }
     },
   }
 };
@@ -526,6 +567,8 @@ ion-checkbox::part(checkmark) {
   color: #333;
   margin-right: 20px;
 }
+
+/* Estilos para adjuntos e inputs inline */
 .attachments {
   display: flex;
   flex-direction: column;
@@ -540,6 +583,30 @@ ion-checkbox::part(checkmark) {
   color: #333;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+}
+.attachment-title {
+  font-weight: 500;
+  cursor: pointer;
+}
+.attachment-input {
+  margin-top: 8px;
+}
+
+/* 
+  Forzamos el estilo Material (mode="md") y sobreescribimos la línea inferior:
+  --highlight-color-focused define el color de la raya.
+  --color-focused define el color del texto al enfocarse.
+*/
+:deep(.attachment-input ion-input) {
+  --highlight-color-focused: #28a745; /* subrayado verde */
+  --color-focused: #28a745;          /* texto en verde al enfocar */
+}
+
+/* Quitamos bordes rectangulares extra */
+:deep(.attachment-input ion-input input) {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /* Estilos para el popup overlay y contenido */

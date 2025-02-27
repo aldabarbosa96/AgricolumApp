@@ -1,15 +1,18 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
-import LogInPage from '../views/LogIn.vue';
-import HomePage from '../views/Home.vue';
-import CrearActividadPage from '../views/CrearActividad.vue';
-import CrearCarrousel from '../views/CrearCarrousel.vue';
-import CrearRecinto from '../views/CrearRecinto.vue'; 
-import MenuPage from '../views/Menu.vue';
+import LogInPage from '@/views/LogIn.vue';
+import HomePage from '@/views/Home.vue';
+import CrearActividadPage from '@/views/CrearActividad.vue';
+import CrearCarrousel from '@/views/CrearCarrousel.vue';
+import CrearRecinto from '@/views/CrearRecinto.vue'; 
+import MenuPage from '@/views/Menu.vue';
 import RecintoSIGPAC from '@/views/RecintoSIGPAC.vue';
 import RecintosSIGPAC2 from '@/views/RecintosSIGPAC2.vue';
 import CrearRecinto2 from '@/views/CrearRecinto2.vue';
 import RecintoDibujo from '@/views/RecintoDibujo.vue';
 import Recintos from '@/views/Recintos.vue';
+import Actividades from '@/views/Actividades.vue';
+import ActividadesRecintos from '@/views/ActividadesRecintos.vue';
+import Registro from '@/views/Registro.vue';
 
 const routes = [
   {
@@ -71,6 +74,21 @@ component: CrearRecinto2
   name: 'Recinto',
   component: Recintos
 },
+{
+  path: '/actividades',
+  name: 'Actividades',
+  component: Actividades
+}, 
+{
+  path: '/actividades-recintos',
+  name: 'ActividadesRecintos',
+  component: ActividadesRecintos
+},
+{
+  path: '/registro',
+  name: 'Registro',
+  component: Registro
+}
 ];
 
 const router = createRouter({

@@ -8,13 +8,13 @@
     <div class="bottom-sheet-content">
       <!-- Input para el nombre del recinto -->
       <div class="input-container">
-        <input type="text" v-model="recintoName" placeholder="Ingrese el nombre del recinto" class="input-field">
+        <input type="text" v-model="recintoName" placeholder="Introduzca el nombre" class="input-field">
       </div>
 
       <div class="area-info">
         <span class="area-value">Área: 8.3066 ha</span> <br>
-        <span class="area-text">Lubida bis American 40</span> <br>
-        <span class="area-text">Brasemala Hipica Restaurant</span> <br>
+        <span class="area-text">Lubida bis American 40</span>
+        <span class="area-text">Brasemala Hipica Restaurant</span>
         <span class="area-text">TOOL MARKET</span>
       </div>
     </div>
@@ -28,7 +28,7 @@ export default {
   name: "BottomSheetArea",
   setup() {
     const isOpen = ref(false);
-    const recintoName = ref(""); // Variable para almacenar el nombre del recinto
+    const recintoName = ref("");
 
     function toggleSheet() {
       isOpen.value = !isOpen.value;
@@ -111,7 +111,7 @@ export default {
 
 .bottom-sheet.expanded .bottom-sheet-content {
   opacity: 1;
-  height: 35vh;
+  height: 25vh; /* Altura reducida para hacerlo más corto */
   overflow-y: auto;
 }
 
@@ -120,17 +120,20 @@ export default {
 ------------------------------------- */
 .input-container {
   width: 90%;
-  margin-bottom: 15px;
+  margin: -30px auto 15px auto; /* Centrado y con margen inferior */
 }
 
 .input-field {
   width: 100%;
   padding: 10px;
   font-size: 16px;
+  background-color: #fff; /* Fondo blanco */
   border: 1px solid #ccc;
   border-radius: 8px;
   outline: none;
   transition: border 0.3s ease;
+  width: 200px;
+  text-align: center;
 }
 
 .input-field:focus {
@@ -144,7 +147,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
+  justify-content: center;}
 
 .area-value {
   font-size: 20px;

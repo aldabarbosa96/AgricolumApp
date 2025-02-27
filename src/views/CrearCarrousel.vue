@@ -4,7 +4,9 @@
       <ion-title class="title">Nueva Actividad</ion-title>
     </ion-header>
 
+    <!-- Agregamos @click al ion-content para capturar clics fuera del carrusel -->
     <ion-content
+      @click="handleContentClick"
       class="ion-padding custom-content"
       style="position: relative; --background: #fff; --padding-top: 8px;"
     >
@@ -83,13 +85,25 @@
         <div class="attachment-item">Documentos</div>
       </div>
 
-      <CarouselComponent class="carousel-bottom" @item-selected="handleItemSelected" />
+      <!-- El carrusel evita la propagación de clics con @click.stop -->
+      <CarouselComponent
+        class="carousel-bottom"
+        @click.stop
+        @item-selected="handleItemSelected"
+      />
     </ion-content>
   </ion-page>
 </template>
 
 <script>
-import { IonPage, IonHeader, IonTitle, IonContent, IonButton, IonCheckbox } from '@ionic/vue';
+import {
+  IonPage,
+  IonHeader,
+  IonTitle,
+  IonContent,
+  IonButton,
+  IonCheckbox
+} from '@ionic/vue';
 import CarouselComponent from '@/components/Carrousel.vue';
 
 export default {
@@ -105,13 +119,19 @@ export default {
   },
   methods: {
     handleItemSelected(item) {
+      // Si se hace clic en "Actividad" dentro del carrusel, no se realiza ninguna acción
+      if (item.title === 'Actividad') {
+        return;
+      }
       if (item.title === 'Recinto') {
         this.$router.push({ path: '/recinto', query: { initialActiveIndex: 1 } });
-      } else if (item.title === 'Actividad') {
-        this.$router.push({ path: '/crear', query: { initialActiveIndex: 0 } });
       } else if (item.title === 'Recinto*') {
         this.$router.push({ path: '/recinto2', query: { initialActiveIndex: 2 } });
       }
+    },
+    handleContentClick() {
+      // Al hacer clic fuera del carrusel se navega a la ventana de CrearActividad
+      this.$router.push({ path: '/crear' });
     }
   }
 };
@@ -159,7 +179,7 @@ ion-header.custom-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px; /* Asegura un ancho adecuado para la fecha */
+  width: 50px;
 }
 
 .option-icon {

@@ -89,25 +89,26 @@ export default {
       carousel.style.transform = `translateX(${offset}px)`;
     },
     goToSlide(index) {
-      if (this.transitioning) return;
-      
-      if (this.activeIndex === index) {
-        // Si se pulsa el mismo slide, se emite el evento sin reposicionar
+    if (this.transitioning) return;
+
+    if (this.activeIndex === index) {
+      // Si se pulsa el mismo slide, emitimos el evento inmediatamente.
+      this.$emit('item-selected', this.items[index]);
+    } else {
+      this.transitioning = true;
+      this.skipTransition = false;
+      this.activeIndex = index;
+      this.$nextTick(() => {
+        this.updatePosition();
+        // Emitimos el evento inmediatamente para que la navegación se realice
         this.$emit('item-selected', this.items[index]);
-      } else {
-        this.transitioning = true;
-        // Al interactuar, desactivamos skipTransition para que la animación se vea
-        this.skipTransition = false;
-        this.activeIndex = index;
-        this.$nextTick(() => {
-          this.updatePosition();
-          setTimeout(() => {
-            this.$emit('item-selected', this.items[index]);
-            this.transitioning = false;
-          }, 300); // Duración que coincide con la transición CSS
-        });
-      }
+        // Mantenemos un pequeño retardo para marcar el fin de la transición (si lo necesitas)
+        setTimeout(() => {
+          this.transitioning = false;
+        }, 300);
+      });
     }
+  }
   }
 };
 </script>
