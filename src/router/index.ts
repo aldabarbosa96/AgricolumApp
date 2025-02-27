@@ -13,6 +13,10 @@ import Recintos from '@/views/Recintos.vue';
 import Actividades from '@/views/Actividades.vue';
 import ActividadesRecintos from '@/views/ActividadesRecintos.vue';
 import Registro from '@/views/Registro.vue';
+import RecintosSolo from '@/views/RecintosSolo.vue';
+
+import path from 'path';
+import { Component } from 'ionicons/dist/types/stencil-public-runtime';
 
 const routes = [
   {
@@ -88,6 +92,11 @@ component: CrearRecinto2
   path: '/registro',
   name: 'Registro',
   component: Registro
+},
+{
+  path: '/recinto-solo',
+  name: 'RecintosSolo',
+  component: RecintosSolo
 }
 ];
 

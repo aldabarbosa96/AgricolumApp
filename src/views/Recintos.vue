@@ -29,29 +29,29 @@
         <!-- Contenedor que enmascara la animación -->
         <div class="slide-container">
           <transition :name="transitionName" mode="out-in">
+            <!-- LISTADO DE RECINTOS -->
             <div v-if="selectedView === 'Recintos'" key="recintos">
               <ion-list>
                 <ion-item
                   v-for="(recinto, index) in recintos"
                   :key="index"
                   class="ion-item-custom"
+                  @click="onRecintoClick(recinto)"
                 >
                   <ion-label>
+                    <!-- Separamos cada dato con <p> para mayor claridad -->
                     <h2 class="recinto-name">{{ recinto.name }}</h2>
                     <p class="recinto-id">{{ recinto.id }}</p>
                     <p class="recinto-area">Área: {{ recinto.area }} ha.</p>
                   </ion-label>
 
-                  <!-- Botón "Ver Actividades" o "Sin Actividades" -->
+                  <!-- Botón "Ver Actividades" o "Sin Actividades" en la parte derecha -->
                   <div
                     slot="end"
                     class="right-content"
-                    @click="goToGestionCampos(recinto)"
+                    @click.stop="goToGestionCampos(recinto)"
                   >
-                    <span
-                      v-if="recinto.actividades > 0"
-                      class="ver-actividades"
-                    >
+                    <span v-if="recinto.actividades > 0" class="ver-actividades">
                       Ver Actividades
                     </span>
                     <span v-else class="sin-actividades">
@@ -65,6 +65,8 @@
                 </ion-item>
               </ion-list>
             </div>
+
+            <!-- LISTADO DE PARCELAS -->
             <div v-else key="parcelas">
               <ion-list>
                 <ion-item
@@ -188,12 +190,10 @@ export default {
   },
   watch: {
     selectedView(newVal, oldVal) {
-      // Si cambiamos de Recintos a Parcelas, la vista se desliza a la izquierda
+      // Controlamos la transición
       if (newVal === 'Parcelas' && oldVal === 'Recintos') {
         this.transitionName = 'slide-left';
-      }
-      // Si cambiamos de Parcelas a Recintos, se desliza a la derecha
-      else if (newVal === 'Recintos' && oldVal === 'Parcelas') {
+      } else if (newVal === 'Recintos' && oldVal === 'Parcelas') {
         this.transitionName = 'slide-right';
       }
       this.previousView = oldVal;
@@ -202,6 +202,9 @@ export default {
   setup() {
     const router = useRouter();
 
+    /**
+     * FAB para crear recinto
+     */
     function goToCrearRecinto() {
       router.push({
         name: 'CrearRecinto',
@@ -209,22 +212,38 @@ export default {
       });
     }
 
+    /**
+     * Si el recinto tiene actividades, mostramos la vista de Actividades.
+     * (Se hace clic en la parte derecha)
+     */
     function goToGestionCampos(recinto) {
       if (recinto.actividades > 0) {
         router.push({ name: 'ActividadesRecintos' });
       }
     }
 
+    /**
+     * Click en el ion-item completo:
+     * Si es "Recinto 03", vamos a la vista RecintosSolos.
+     */
+    function onRecintoClick(recinto) {
+      if (recinto.name === 'Recinto 03') {
+        router.push({ name: 'RecintosSolo', params: { id: recinto.id } });
+      }
+      // Si quisieras hacer algo distinto para otros recintos, puedes añadirlo aquí
+    }
+
     return {
       goToCrearRecinto,
-      goToGestionCampos
+      goToGestionCampos,
+      onRecintoClick
     };
   }
 };
 </script>
 
 <style scoped>
-/* CABECERA y segment */
+/* ====== CABECERA y subheader ====== */
 ion-header.custom-header {
   box-shadow: none;
   border-bottom: 1px solid #ddd;
@@ -251,7 +270,7 @@ ion-header.custom-header {
   padding-bottom: 10px;
 }
 
-/* CONTENEDOR PRINCIPAL */
+/* ====== CONTENEDOR PRINCIPAL ====== */
 .recintos-content {
   --background: #fff;
   position: relative;
@@ -277,38 +296,42 @@ ion-segment-button {
   font-weight: 600;
 }
 
-/* LISTA DE RECINTOS/PARCELAS */
+/* ====== LISTA DE RECINTOS/PARCELAS ====== */
 .list-wrapper {
   margin-top: 20px;
   padding: 20px;
   padding-bottom: 150px;
 }
 .ion-item-custom {
-  margin: 0 15px;
+  margin: 10px 15px; /* mayor separación vertical */
+  padding: 15px 12px; /* mayor espacio interno */
   border-radius: 8px;
   --background: #fff;
-  --inner-padding-end: 12px;
-  --inner-padding-start: 12px;
   border-bottom: 1px solid #eee;
 }
+
+/* Separación de líneas en los datos del recinto/parcela */
 .recinto-name,
 .parcela-name {
   font-size: 16px;
   font-weight: bold;
   color: #777;
-  margin-bottom: 4px;
+  margin-bottom: 8px; /* mayor separación debajo del título */
 }
 .recinto-id,
-.parcela-id {
-  font-size: 14px;
-  color: #888;
-}
+.parcela-id,
 .recinto-area,
 .parcela-area {
   font-size: 14px;
+  margin: 4px 0; /* mayor espacio entre cada línea */
+}
+.recinto-area,
+.parcela-area {
   color: #28a745;
   font-weight: 600;
 }
+
+/* Botones "Ver Actividades" / "Sin Actividades" */
 .ver-actividades {
   color: #28a745;
   font-size: 14px;
@@ -331,9 +354,9 @@ ion-segment-button {
   cursor: pointer;
 }
 
-/* FAB */
+/* ====== FAB ====== */
 .fab-position {
-  bottom: 350px;
+  bottom: 275px;
 }
 .custom-fab {
   --background: #f2f2f2;
@@ -346,32 +369,26 @@ ion-segment-button {
   --color: white;
 }
 
-/* Contenedor que enmascara la animación de transición */
+/* ====== TRANSICIONES ====== */
 .slide-container {
   position: relative;
   overflow: hidden;
 }
-
-/* Asegura que cada vista en transición ocupe el 100% del ancho */
 .slide-container > * {
   width: 100%;
 }
-
-/* Transiciones de deslizamiento sin aplicar position: absolute */
 .slide-left-enter-active,
 .slide-left-leave-active,
 .slide-right-enter-active,
 .slide-right-leave-active {
   transition: transform 0.5s ease;
 }
-
 .slide-left-enter {
   transform: translateX(100%);
 }
 .slide-left-leave-to {
   transform: translateX(-100%);
 }
-
 .slide-right-enter {
   transform: translateX(-100%);
 }
