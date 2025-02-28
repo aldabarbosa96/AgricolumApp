@@ -15,7 +15,7 @@
       :class="{ active: isLocationActive }"
       @click="toggleLocation"
     >
-      <img src="/location.png" alt="Location" />
+      <img src="/Location1.png" alt="Location" />
     </div>
   </div>
 </template>

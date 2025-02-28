@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    // "noEmit": true, // quítalo o ponlo en false
     "declaration": false,
     "emitDeclarationOnly": false,
     "target": "ESNext",
@@ -13,12 +14,11 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
-    "noEmit": true,
     "paths": {
       "@/*": ["./src/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "exclude": ["**/*.vue.d.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": []
 }
