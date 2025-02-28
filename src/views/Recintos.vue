@@ -4,6 +4,13 @@
     <ion-header class="custom-header">
       <!-- Toolbar principal -->
       <ion-toolbar>
+        <!-- BOTÓN BACK -->
+        <ion-buttons slot="start">
+          <ion-button @click="goBack">
+            <img src="/chevron_left_thin.png" class="back-icon" alt="Volver" />
+          </ion-button>
+        </ion-buttons>
+
         <ion-title class="title">Gestión de Campos</ion-title>
       </ion-toolbar>
 
@@ -51,16 +58,24 @@
                     class="right-content"
                     @click.stop="goToGestionCampos(recinto)"
                   >
-                    <span v-if="recinto.actividades > 0" class="ver-actividades">
+                    <!-- Ícono “forward” invertido -->
+                    <img
+                      src="/chevron_left_thin.png"
+                      class="forward-icon"
+                      alt="Forward"
+                    />
+                    <span
+                      v-if="recinto.actividades > 0"
+                      class="ver-actividades"
+                    >
                       Ver Actividades
                     </span>
-                    <span v-else class="sin-actividades">
+                    <span
+                      v-else
+                      class="sin-actividades"
+                    >
                       Sin Actividades
                     </span>
-                    <ion-icon
-                      name="chevron-forward-outline"
-                      class="forward-icon"
-                    ></ion-icon>
                   </div>
                 </ion-item>
               </ion-list>
@@ -79,11 +94,14 @@
                     <p class="parcela-id">{{ parcela.id }}</p>
                     <p class="parcela-area">Área: {{ parcela.area }} ha.</p>
                   </ion-label>
-                  <ion-icon
-                    slot="end"
-                    name="chevron-forward-outline"
+
+                  <!-- Ícono “forward” invertido -->
+                  <img
+                    src="/chevron_left_thin.png"
                     class="forward-icon"
-                  ></ion-icon>
+                    alt="Forward"
+                    slot="end"
+                  />
                 </ion-item>
               </ion-list>
             </div>
@@ -123,7 +141,9 @@ import {
   IonLabel,
   IonIcon,
   IonFab,
-  IonFabButton
+  IonFabButton,
+  IonButtons,
+  IonButton
 } from '@ionic/vue';
 
 import { useRouter } from 'vue-router';
@@ -145,6 +165,8 @@ export default {
     IonIcon,
     IonFab,
     IonFabButton,
+    IonButtons,
+    IonButton,
     Toolbar
   },
   data() {
@@ -190,7 +212,6 @@ export default {
   },
   watch: {
     selectedView(newVal, oldVal) {
-      // Controlamos la transición
       if (newVal === 'Parcelas' && oldVal === 'Recintos') {
         this.transitionName = 'slide-left';
       } else if (newVal === 'Recintos' && oldVal === 'Parcelas') {
@@ -213,7 +234,7 @@ export default {
     }
 
     /**
-     * Si el recinto tiene actividades, mostramos la vista de Actividades.
+     * Si el recinto tiene actividades, mostramos la vista de ActividadesRecintos.
      * (Se hace clic en la parte derecha)
      */
     function goToGestionCampos(recinto) {
@@ -230,13 +251,20 @@ export default {
       if (recinto.name === 'Recinto 03') {
         router.push({ name: 'RecintosSolo', params: { id: recinto.id } });
       }
-      // Si quisieras hacer algo distinto para otros recintos, puedes añadirlo aquí
+    }
+
+    /**
+     * Botón de Back
+     */
+    function goBack() {
+      router.back();
     }
 
     return {
       goToCrearRecinto,
       goToGestionCampos,
-      onRecintoClick
+      onRecintoClick,
+      goBack
     };
   }
 };
@@ -268,6 +296,12 @@ ion-header.custom-header {
   font-size: 16px;
   font-weight: normal;
   padding-bottom: 10px;
+}
+
+/* Ícono de back */
+.back-icon {
+  width: 10px;
+  height: 20px;
 }
 
 /* ====== CONTENEDOR PRINCIPAL ====== */
@@ -336,18 +370,24 @@ ion-segment-button {
   color: #28a745;
   font-size: 14px;
   font-weight: bold;
-  margin-right: 8px;
+  margin-left: 70px;  /* espacio entre icono e texto */
 }
 .sin-actividades {
   color: #999;
   font-size: 14px;
   font-weight: bold;
-  margin-right: 8px;
+  margin-left: 70px;  /* espacio entre icono e texto */
 }
+
+/* Ícono “forward” invertido */
 .forward-icon {
-  font-size: 18px;
-  color: #ccc;
+  width: 7px;
+  height: 15px;
+  transform: scaleX(-1); /* espeja la flecha para que apunte a la derecha */
+  cursor: pointer;
 }
+
+/* Right content (icon + texto Actividades) */
 .right-content {
   display: flex;
   align-items: center;
@@ -394,5 +434,17 @@ ion-segment-button {
 }
 .slide-right-leave-to {
   transform: translateX(100%);
+}
+ion-toolbar {
+  --ion-title-text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+/* Baja un poco el botón/imágen de “back” */
+ion-buttons[slot="start"] {
+  margin-top: 15px;
+  margin-left: 10px;
+  margin-right: -35px;
 }
 </style>

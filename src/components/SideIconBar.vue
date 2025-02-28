@@ -1,8 +1,15 @@
 <template>
   <div class="floating-buttons">
-    <div class="floating-button">
+    <!-- Botón de "pintura" -->
+    <div
+      class="floating-button"
+      :class="{ active: isPaintActive }"
+      @click="onPaintClick"
+    >
       <img src="/paint.png" alt="Paint" class="paint-icon" />
     </div>
+
+    <!-- Botón de "ubicación" -->
     <div
       class="floating-button"
       :class="{ active: isLocationActive }"
@@ -18,12 +25,20 @@ export default {
   name: "FloatingButtons",
   data() {
     return {
-      isLocationActive: false
+      isLocationActive: false,
+      isPaintActive: false
     };
   },
   methods: {
     toggleLocation() {
       this.isLocationActive = !this.isLocationActive;
+    },
+    onPaintClick() {
+      // Resalta en verde al hacer clic
+      this.isPaintActive = !this.isPaintActive;
+
+      // Navega a la vista FiltroColores
+      this.$router.push({ name: "FiltroColores" });
     }
   }
 };
@@ -33,17 +48,17 @@ export default {
 .floating-buttons {
   position: fixed;
   right: 20px;
-  bottom: 200px; /* Ajusta este valor para que quede justo por encima del desplegable inferior */
+  bottom: 200px;
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Espaciado entre cada botón */
-  z-index: 900; /* Mayor que el bottom sheet para que siempre se vea */
+  gap: 20px;
+  z-index: 900;
 }
 
 .floating-button {
   width: 40px;
   height: 40px;
-  background-color: rgba(190, 190, 190, 0.8); /* Fondo más opaco */
+  background-color: rgba(190, 190, 190, 0.8);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -52,6 +67,7 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
 }
 
+/* Cambia a verde cuando está activo */
 .floating-button.active {
   background-color: #5ab06c;
 }

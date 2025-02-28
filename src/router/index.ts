@@ -14,9 +14,11 @@ import Actividades from '@/views/Actividades.vue';
 import ActividadesRecintos from '@/views/ActividadesRecintos.vue';
 import Registro from '@/views/Registro.vue';
 import RecintosSolo from '@/views/RecintosSolo.vue';
+import FiltroColores from '@/views/FiltroColores.vue';
 
-import path from 'path';
-import { Component } from 'ionicons/dist/types/stencil-public-runtime';
+// OJO: Eliminamos las líneas que causan conflicto
+// import path from 'path';
+// import { Component } from 'ionicons/dist/types/stencil-public-runtime';
 
 const routes = [
   {
@@ -59,45 +61,50 @@ const routes = [
     component: RecintoSIGPAC 
   },
   {
-  path: '/recintos-sigpac2',
-  name: 'RecintosSIGPAC2',
-  component: RecintosSIGPAC2 
-},
-{
-path: '/recinto2',
-name: 'CrearRecinto2',
-component: CrearRecinto2
-},
-{
-  path: '/recintos-dibujo',
-  name: 'RecintoDibujo',
-  component: RecintoDibujo
-},
-{
-  path: '/recintos',
-  name: 'Recinto',
-  component: Recintos
-},
-{
-  path: '/actividades',
-  name: 'Actividades',
-  component: Actividades
-}, 
-{
-  path: '/actividades-recintos',
-  name: 'ActividadesRecintos',
-  component: ActividadesRecintos
-},
-{
-  path: '/registro',
-  name: 'Registro',
-  component: Registro
-},
-{
-  path: '/recinto-solo',
-  name: 'RecintosSolo',
-  component: RecintosSolo
-}
+    path: '/recintos-sigpac2',
+    name: 'RecintosSIGPAC2',
+    component: RecintosSIGPAC2 
+  },
+  {
+    path: '/recinto2',
+    name: 'CrearRecinto2',
+    component: CrearRecinto2
+  },
+  {
+    path: '/recintos-dibujo',
+    name: 'RecintoDibujo',
+    component: RecintoDibujo
+  },
+  {
+    path: '/recintos',
+    name: 'Recinto',
+    component: Recintos
+  },
+  {
+    path: '/actividades',
+    name: 'Actividades',
+    component: Actividades
+  },
+  {
+    path: '/actividades-recintos',
+    name: 'ActividadesRecintos',
+    component: ActividadesRecintos
+  },
+  {
+    path: '/registro',
+    name: 'Registro',
+    component: Registro
+  },
+  {
+    path: '/recinto-solo',
+    name: 'RecintosSolo',
+    component: RecintosSolo
+  },
+  {
+    path: '/filtro-colores',
+    name: 'FiltroColores',
+    component: FiltroColores
+  }
 ];
 
 const router = createRouter({

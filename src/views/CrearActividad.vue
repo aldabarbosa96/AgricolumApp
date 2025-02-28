@@ -11,9 +11,9 @@
       <div class="content-wrapper" :class="{ blur: showSuccessPopup }">
         <div class="divider top-divider"></div>
 
-        <!-- Lista de opciones -->
+        <!-- LISTA DE OPCIONES -->
         <div class="options-list">
-          <!-- Opción: Tipo (con IonPopover) -->
+          <!-- 1) Tipo (Popover) -->
           <div class="option-item">
             <div class="option-left">
               <img src="/List.png" alt="Icono Tipo" class="option-icon" />
@@ -23,30 +23,35 @@
                 <span v-else>Sin seleccionar</span>
               </span>
             </div>
-            <ion-button
-              fill="clear"
-              color="success"
-              class="option-plus"
-              @click="openTipoPopover($event)"
-            >
-              +
-            </ion-button>
+            <!-- Contenedor a la derecha -->
+            <div class="option-right">
+              <ion-button
+                fill="clear"
+                color="success"
+                class="option-plus"
+                @click="openTipoPopover($event)"
+              >
+                +
+              </ion-button>
+            </div>
           </div>
 
-          <!-- Opción: Planificada (checkbox) -->
+          <!-- 2) Planificada (checkbox) -->
           <div class="option-item">
             <div class="option-left">
               <img src="/Tasklist.png" alt="Icono Planificada" class="option-icon" />
               <span class="option-label">Planificada</span>
             </div>
-            <ion-checkbox
-              color="success"
-              class="option-plus"
-              v-model="isPlanificada"
-            ></ion-checkbox>
+            <div class="option-right">
+              <ion-checkbox
+                color="success"
+                class="option-plus"
+                v-model="isPlanificada"
+              ></ion-checkbox>
+            </div>
           </div>
 
-          <!-- Opción: Campo (con IonPopover) -->
+          <!-- 3) Campo (Popover) -->
           <div class="option-item">
             <div class="option-left">
               <img src="/Location3.png" alt="Icono Campo" class="option-icon" />
@@ -56,17 +61,19 @@
                 <span v-else>Sin seleccionar</span>
               </span>
             </div>
-            <ion-button
-              fill="clear"
-              color="success"
-              class="option-plus"
-              @click="openCampoPopover($event)"
-            >
-              +
-            </ion-button>
+            <div class="option-right">
+              <ion-button
+                fill="clear"
+                color="success"
+                class="option-plus"
+                @click="openCampoPopover($event)"
+              >
+                +
+              </ion-button>
+            </div>
           </div>
 
-          <!-- Opción: Trabajadores (modal) -->
+          <!-- 4) Trabajadores (Modal) -->
           <div class="option-item">
             <div class="option-left">
               <img src="/Worker.png" alt="Icono Trabajadores" class="option-icon" />
@@ -78,17 +85,19 @@
                 <span v-else>Sin seleccionar</span>
               </span>
             </div>
-            <ion-button
-              fill="clear"
-              color="success"
-              class="option-plus"
-              @click="showTrabajadoresModal = true"
-            >
-              +
-            </ion-button>
+            <div class="option-right">
+              <ion-button
+                fill="clear"
+                color="success"
+                class="option-plus"
+                @click="showTrabajadoresModal = true"
+              >
+                +
+              </ion-button>
+            </div>
           </div>
 
-          <!-- Opción: Maquinaria (con IonPopover) -->
+          <!-- 5) Maquinaria (Popover) -->
           <div class="option-item">
             <div class="option-left">
               <img src="/Tractor.png" alt="Icono Maquinaria" class="option-icon" />
@@ -98,17 +107,19 @@
                 <span v-else>Sin seleccionar</span>
               </span>
             </div>
-            <ion-button
-              fill="clear"
-              color="success"
-              class="option-plus"
-              @click="openMaquinariaPopover($event)"
-            >
-              +
-            </ion-button>
+            <div class="option-right">
+              <ion-button
+                fill="clear"
+                color="success"
+                class="option-plus"
+                @click="openMaquinariaPopover($event)"
+              >
+                +
+              </ion-button>
+            </div>
           </div>
 
-          <!-- Opción: Fecha -->
+          <!-- 6) Fecha -->
           <div class="option-item">
             <div class="option-left">
               <img src="/Calendar.png" alt="Icono Fecha" class="option-icon" />
@@ -122,12 +133,14 @@
 
         <div class="divider bottom-divider"></div>
 
-        <!-- Sección de adjuntos con input inline -->
+        <!-- SECCIÓN DE ADJUNTOS -->
         <div class="attachments">
+          <!-- Albarán -->
           <div class="attachment-item">
-            <div class="attachment-title" @click="toggleAttachment('albaran')">Albarán</div>
+            <div class="attachment-title" @click="toggleAttachment('albaran')">
+              Albarán
+            </div>
             <div v-if="showAlbaranInput" class="attachment-input">
-              <!-- IonInput con estilo Material y subrayado verde -->
               <ion-input
                 mode="md"
                 v-model="albaranText"
@@ -135,8 +148,12 @@
               ></ion-input>
             </div>
           </div>
+
+          <!-- Notas -->
           <div class="attachment-item">
-            <div class="attachment-title" @click="toggleAttachment('notas')">Notas</div>
+            <div class="attachment-title" @click="toggleAttachment('notas')">
+              Notas
+            </div>
             <div v-if="showNotasInput" class="attachment-input">
               <ion-input
                 mode="md"
@@ -145,29 +162,44 @@
               ></ion-input>
             </div>
           </div>
+
+          <!-- Fotos -->
           <div class="attachment-item">
-            <div class="attachment-title" @click="toggleAttachment('fotos')">Fotos</div>
+            <div class="attachment-title" @click="toggleAttachment('fotos')">
+              Fotos
+            </div>
             <div v-if="showFotosInput" class="attachment-input">
               <ion-input
                 mode="md"
                 v-model="fotosText"
                 placeholder="Notas sobre las fotos"
               ></ion-input>
-              <ion-button color="success" @click="takePhoto" style="margin-top: 10px;">Galería
-    </ion-button>
 
-    <!-- Previsualización de la foto -->
-    <img
-      v-if="fotosPreview"
-      :src="fotosPreview"
-      alt="Vista previa"
-      style="width: 100%; max-width: 300px; margin-top: 10px;"
-    />
- 
+              <!-- Botón "Galería" con clase custom-success -->
+              <ion-button
+                class="custom-success"
+                color="success"
+                @click="takePhoto"
+                style="margin-top: 10px;"
+              >
+                Galería
+              </ion-button>
+
+              <!-- Previsualización de foto -->
+              <img
+                v-if="fotosPreview"
+                :src="fotosPreview"
+                alt="Vista previa"
+                style="width: 100%; max-width: 300px; margin-top: 10px;"
+              />
             </div>
           </div>
+
+          <!-- Documentos -->
           <div class="attachment-item">
-            <div class="attachment-title" @click="toggleAttachment('documentos')">Documentos</div>
+            <div class="attachment-title" @click="toggleAttachment('documentos')">
+              Documentos
+            </div>
             <div v-if="showDocumentosInput" class="attachment-input">
               <ion-input
                 mode="md"
@@ -178,7 +210,6 @@
           </div>
         </div>
       </div>
- 
 
       <!-- Popup de éxito -->
       <div v-if="showSuccessPopup" class="popup-overlay">
@@ -188,27 +219,27 @@
       </div>
     </ion-content>
 
-    <!-- ConfirmToolbar se muestra solo cuando no está el popup -->
+    <!-- ConfirmToolbar (Guardado/Cancelado) -->
     <ConfirmToolbar
       v-if="!showSuccessPopup"
       @cancel="handleCancel"
       @save="handleSave"
     />
-
-    <!-- ==================== POPOVERS ==================== -->
-
-    <!-- Popover para TIPO -->
+    
+    <!-- =========== POPOVERS =========== -->
+    <!-- Tipo -->
     <ion-popover
       :is-open="showTipoPopover"
       :event="tipoPopoverEvent"
       @didDismiss="showTipoPopover = false"
     >
-      <ion-content>
+      <ion-content class="custom-popover">
         <ion-list>
           <ion-item
             v-for="(tipo, index) in tipos"
             :key="index"
             @click="selectTipo(tipo)"
+            class="custom-popover-item"
           >
             {{ tipo }}
           </ion-item>
@@ -216,18 +247,19 @@
       </ion-content>
     </ion-popover>
 
-    <!-- Popover para CAMPO -->
+    <!-- Campo -->
     <ion-popover
       :is-open="showCampoPopover"
       :event="campoPopoverEvent"
       @didDismiss="showCampoPopover = false"
     >
-      <ion-content>
+      <ion-content class="custom-popover">
         <ion-list>
           <ion-item
             v-for="(campo, index) in campos"
             :key="index"
             @click="selectCampo(campo)"
+            class="custom-popover-item"
           >
             {{ campo }}
           </ion-item>
@@ -235,18 +267,19 @@
       </ion-content>
     </ion-popover>
 
-    <!-- Popover para MAQUINARIA -->
+    <!-- Maquinaria -->
     <ion-popover
       :is-open="showMaquinariaPopover"
       :event="maquinariaPopoverEvent"
       @didDismiss="showMaquinariaPopover = false"
     >
-      <ion-content>
+      <ion-content class="custom-popover">
         <ion-list>
           <ion-item
             v-for="(maq, index) in maquinarias"
             :key="index"
             @click="selectMaquinaria(maq)"
+            class="custom-popover-item"
           >
             {{ maq }}
           </ion-item>
@@ -254,36 +287,54 @@
       </ion-content>
     </ion-popover>
 
-    <!-- ==================== MODALES PARA OTROS ==================== -->
-
-    <!-- Modal para seleccionar Trabajadores -->
-    <ion-modal 
+    <!-- =========== MODAL TRABAJADORES =========== -->
+    <ion-modal
       :is-open="showTrabajadoresModal"
       @didDismiss="showTrabajadoresModal = false"
     >
-      <ion-content>
-        <ion-list>
-          <ion-item
-            v-for="(trabajador, index) in trabajadores"
-            :key="index"
-            @click="toggleTrabajador(trabajador)"
+      <ion-content class="trabajadores-content">
+        <div class="trabajadores-list">
+          <ion-list>
+            <ion-item
+              button
+              v-for="(trabajador, index) in trabajadores"
+              :key="index"
+              @click="toggleTrabajador(trabajador)"
+              class="trabajador-item"
+            >
+              <ion-label>{{ trabajador }}</ion-label>
+              <ion-checkbox
+                slot="end"
+                v-model="selectedTrabajadoresMap[trabajador]"
+                @click.stop
+              ></ion-checkbox>
+            </ion-item>
+          </ion-list>
+        </div>
+        <div class="modal-buttons">
+          <ion-button
+            class="custom-success"
+            color="success"
+            expand="block"
+            @click="confirmTrabajadores"
           >
-            <ion-label>{{ trabajador }}</ion-label>
-            <ion-checkbox
-              slot="end"
-              v-model="selectedTrabajadoresMap[trabajador]"
-            ></ion-checkbox>
-          </ion-item>
-        </ion-list>
-        <ion-button @click="confirmTrabajadores" color="success">Aceptar</ion-button>
-        <ion-button @click="showTrabajadoresModal = false" color="medium">Cerrar</ion-button>
+            Aceptar
+          </ion-button>
+          <ion-button
+            color="medium"
+            expand="block"
+            @click="showTrabajadoresModal = false"
+          >
+            Cerrar
+          </ion-button>
+        </div>
       </ion-content>
     </ion-modal>
-
   </ion-page>
 </template>
 
 <script>
+/* (Igual que tu ejemplo) */
 import {
   IonPage,
   IonHeader,
@@ -302,7 +353,6 @@ import {
 
 import ConfirmToolbar from '@/components/ConfirmToolbar.vue';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-
 
 export default {
   name: "Crear",
@@ -324,14 +374,10 @@ export default {
   },
   data() {
     return {
-      // Control de popup de éxito y fade-out
       showSuccessPopup: false,
       fadeOut: false,
-
-      // Checkbox "Planificada"
       isPlanificada: false,
 
-      // ======== POPOVERS PARA TIPO, CAMPO Y MAQUINARIA ========
       showTipoPopover: false,
       tipoPopoverEvent: null,
       showCampoPopover: false,
@@ -339,65 +385,93 @@ export default {
       showMaquinariaPopover: false,
       maquinariaPopoverEvent: null,
 
-      // ======== MODALES PARA OTROS ========
       showTrabajadoresModal: false,
 
-      // Control de inputs inline para adjuntos
+      /* Toggling adjuntos */
       showAlbaranInput: false,
       showNotasInput: false,
       showFotosInput: false,
       showDocumentosInput: false,
 
+      /* Archivos / texto */
       fotosText: '',
       fotosPreview: null,
 
-      // Datos de ejemplo para seleccionar
-      tipos: ['Tipo A', 'Tipo B', 'Tipo C'],
-      campos: ['Campo 1', 'Campo 2', 'Campo 3'],
-      trabajadores: ['Juan', 'María', 'Pedro', 'Luis'],
-      maquinarias: ['Tractor', 'Cosechadora', 'Camión'],
+      /* Listas de ejemplo */
+      tipos: [
+        "Siembra",
+        "Cosecha",
+        "Riego",
+        "Fertilización",
+        "Poda",
+        "Control de Plagas",
+        "Preparación de Suelo",
+        "Rotación de Cultivos",
+        "Mantenimiento de Equipos",
+        "Gestión de Abonos"
+      ],
+      campos: [
+        "Recinto 01",
+        "Recinto 02",
+        "Recinto 03"
+      ],
+      trabajadores: [
+        "T001 - Juan Pérez",
+        "T002 - María López",
+        "T003 - Pedro Rodríguez",
+        "T004 - Luis Hernández",
+        "T005 - Ana Martínez",
+        "T006 - Sara González",
+        "T007 - Carlos Sánchez",
+        "T008 - José García",
+        "T009 - Laura Fernández",
+        "T010 - Manuel Torres"
+      ],
+      maquinarias: [
+        "Tractor John Deere 5075E",
+        "Cosechadora New Holland CR10.90",
+        "Camión Fendt 900",
+        "Arado Kuhn 150",
+        "Empacadora Claas Lexion 750",
+        "Pulverizadora Case IH Patriot",
+        "Segadora Valtra 6120",
+        "Compactador John Deere 850",
+        "Tractor Massey Ferguson 4707",
+        "Remolque New Holland RT780"
+      ],
 
-      // Valores seleccionados
+      /* Seleccionados */
       selectedTipo: '',
       selectedCampo: '',
       selectedTrabajadores: [],
       selectedTrabajadoresMap: {},
       selectedMaquinaria: '',
 
-      // Textos para adjuntos
+      /* Textos */
       albaranText: '',
       notasText: '',
       fotosText: '',
-      documentosText: '',
+      documentosText: ''
     };
   },
   methods: {
-
     async takePhoto() {
       try {
         const image = await Camera.getPhoto({
           quality: 90,
           allowEditing: false,
-          resultType: CameraResultType.DataUrl,  // guardamos en formato dataURL
-          source: CameraSource.Prompt            // Camera, Photos o Prompt (pregunta al usuario)
+          resultType: CameraResultType.DataUrl,
+          source: CameraSource.Prompt
         });
-
-        // Asignamos la foto a fotosPreview para mostrarla en <img>
         this.fotosPreview = image.dataUrl;
-        
-        // Si quieres, también puedes almacenar la foto en base64 en tu variable de "fotosText"
-        // this.fotosText = image.base64String; // si usaras CameraResultType.Base64
       } catch (error) {
         console.error('Error al tomar/elegir la foto:', error);
       }
     },
-    // Botones Cancelar / Guardar del ConfirmToolbar
     handleCancel() {
-      console.log("Has pulsado Cancelar");
       this.$router.push({ name: 'Home' });
     },
     handleSave() {
-      console.log("Has pulsado Guardar");
       this.showSuccessPopup = true;
       setTimeout(() => {
         this.fadeOut = true;
@@ -407,7 +481,6 @@ export default {
       }, 1000);
     },
 
-    // ======== Popover para TIPO ========
     openTipoPopover(ev) {
       this.tipoPopoverEvent = ev;
       this.showTipoPopover = true;
@@ -417,7 +490,6 @@ export default {
       this.showTipoPopover = false;
     },
 
-    // ======== Popover para CAMPO ========
     openCampoPopover(ev) {
       this.campoPopoverEvent = ev;
       this.showCampoPopover = true;
@@ -427,7 +499,6 @@ export default {
       this.showCampoPopover = false;
     },
 
-    // ======== Popover para MAQUINARIA ========
     openMaquinariaPopover(ev) {
       this.maquinariaPopoverEvent = ev;
       this.showMaquinariaPopover = true;
@@ -437,18 +508,16 @@ export default {
       this.showMaquinariaPopover = false;
     },
 
-    // ======== Modal para TRABAJADORES ========
     toggleTrabajador(trabajador) {
       this.selectedTrabajadoresMap[trabajador] = !this.selectedTrabajadoresMap[trabajador];
     },
     confirmTrabajadores() {
       this.selectedTrabajadores = Object.keys(this.selectedTrabajadoresMap).filter(
-        (key) => this.selectedTrabajadoresMap[key]
+        key => this.selectedTrabajadoresMap[key]
       );
       this.showTrabajadoresModal = false;
     },
 
-    // ======== Toggle para inputs inline de adjuntos ========
     toggleAttachment(type) {
       if (type === 'albaran') {
         this.showAlbaranInput = !this.showAlbaranInput;
@@ -459,13 +528,13 @@ export default {
       } else if (type === 'documentos') {
         this.showDocumentosInput = !this.showDocumentosInput;
       }
-    },
+    }
   }
 };
 </script>
 
 <style scoped>
-/* Transición de opacidad para la ion-page */
+/* ====== Fade-out transition ====== */
 ion-page {
   transition: opacity 0.5s ease;
   opacity: 1;
@@ -474,10 +543,10 @@ ion-page.fade-out {
   opacity: 0;
 }
 
+/* Encabezado */
 ion-header.custom-header {
   box-shadow: none;
 }
-
 .title {
   text-align: center;
   color: #28a745;
@@ -492,29 +561,28 @@ ion-header.custom-header {
   --ion-safe-area-bottom: 0px;
 }
 
-/* Contenedor principal de contenido para aplicar blur */
+/* Contenedor principal y blur */
 .content-wrapper {
   position: relative;
 }
-
-/* Efecto blur al mostrar el popup de éxito */
 .blur {
   filter: blur(4px);
-  -webkit-filter: blur(4px);
 }
 
-/* Estilos para divisores, opciones y adjuntos */
+/* Divisores */
 .divider {
   height: 1px;
   background-color: #ddd;
   border: none;
 }
 .top-divider {
-  margin: -5px 0 15px 0; 
+  margin: -5px 0 15px 0;
 }
 .bottom-divider {
-  margin: 25px 0; 
+  margin: 25px 0;
 }
+
+/* ====== LISTA DE OPCIONES ====== */
 .options-list {
   display: flex;
   flex-direction: column;
@@ -523,7 +591,7 @@ ion-header.custom-header {
 .option-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; /* para separar .option-left y .option-right */
   padding: 5px 0;
 }
 .option-left {
@@ -534,8 +602,8 @@ ion-header.custom-header {
 .option-icon {
   width: 24px;
   height: 24px;
-  object-fit: contain;
   margin-left: 20px;
+  object-fit: contain;
 }
 .option-label {
   font-size: 16px;
@@ -543,32 +611,27 @@ ion-header.custom-header {
   font-weight: 500;
   margin-left: 20px;
 }
+
+/* A la derecha tenemos un contenedor con ancho fijo => alinea todo */
+.option-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px; 
+}
+
+/* Los botones + y el checkbox usan .option-plus para tamaño, etc. */
 .option-plus {
   font-size: 25px;
-  --padding-start: 0;
-  --padding-end: 0;
-  margin-right: 20px;
 }
-option-item ion-checkbox {
-  margin-right: 20px;
-}
-ion-checkbox::part(container) {
-  background: white !important;
-  border-color: black !important;
-}
-ion-checkbox {
-  --checkmark-color: #28a745;
-}
-ion-checkbox::part(checkmark) {
-  color: #28a745 !important;
-}
+
 .option-date {
   font-size: 16px;
   color: #333;
   margin-right: 20px;
 }
 
-/* Estilos para adjuntos e inputs inline */
+/* ====== ADJUNTOS ====== */
 .attachments {
   display: flex;
   flex-direction: column;
@@ -591,32 +654,24 @@ ion-checkbox::part(checkmark) {
 .attachment-input {
   margin-top: 8px;
 }
-
-/* 
-  Forzamos el estilo Material (mode="md") y sobreescribimos la línea inferior:
-  --highlight-color-focused define el color de la raya.
-  --color-focused define el color del texto al enfocarse.
-*/
 :deep(.attachment-input ion-input) {
-  --highlight-color-focused: #28a745; /* subrayado verde */
-  --color-focused: #28a745;          /* texto en verde al enfocar */
+  --highlight-color-focused: #28a745;
+  --color-focused: #28a745;
 }
-
-/* Quitamos bordes rectangulares extra */
 :deep(.attachment-input ion-input input) {
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
 }
 
-/* Estilos para el popup overlay y contenido */
+/* ====== POPUP EXITO ====== */
 .popup-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0,0,0,0.2);
   z-index: 99999;
   display: flex;
   justify-content: center;
@@ -627,16 +682,84 @@ ion-checkbox::part(checkmark) {
   color: #28a745;
   padding: 20px;
   border-radius: 5px;
-  text-align: center;
   width: 300px;
   height: 200px;
+  text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
 }
 .popup-content h2 {
-  font-size: 20px;
   margin: 0;
+  font-size: 20px;
+}
+
+/* ====== BOTONES "success" ====== */
+ion-button[color="success"] {
+  --background: #21893a !important;  
+  --background-activated: #21893a !important;
+  --background-focused: #21893a !important;
+  --color: #fff !important;
+}
+/* Botones en modal y adjuntos => verde oscuro */
+.modal-buttons ion-button[color="success"],
+.attachments ion-button[color="success"] {
+  --background: #1e7e34 !important;
+  --background-activated: #21893a !important;
+  --background-focused: #21893a !important;
+  --color: #fff !important;
+}
+/* custom-success para IonButton con shadow parts */
+.custom-success::part(native) {
+  background: #1e7e34 !important;
+  color: #fff !important;
+}
+.custom-success::part(native):active,
+.custom-success::part(native):focus {
+  background: #1c7430 !important;
+}
+
+/* ====== POPOVERS (IonPopover) ====== */
+.custom-popover {
+  --background: #fff;
+  --border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  padding: 8px;
+}
+.custom-popover ion-item {
+  --min-height: 48px;
+  font-size: 16px;
+  color: #1e7e34;
+  --inner-padding-end: 16px;
+  --inner-padding-start: 16px;
+}
+.custom-popover-item {
+  --background: transparent;
+  --ripple-color: #1e7e34;
+}
+.custom-popover-item:hover {
+  background-color: rgba(30,126,52,0.1);
+  cursor: pointer;
+}
+
+/* ====== MODAL TRABAJADORES ====== */
+.trabajadores-content {
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+}
+.trabajadores-list {
+  margin: 16px;
+}
+.trabajador-item {
+  margin: 8px;
+}
+.modal-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
 }
 </style>

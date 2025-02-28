@@ -207,7 +207,7 @@ export default {
     }
 
     function createPlannedActivity() {
-     router.push({ name: 'CrearActividad' })
+      router.push({ name: 'CrearActividad' })
     }
 
     return {
@@ -448,24 +448,24 @@ export default {
   margin-bottom: 20px;
   color: #999;
   margin-bottom: 100px;
-
 }
 
-/* Botón de añadir: gris por defecto y verde al hover */
+/* Botón de añadir: estilo replicado del FAB "custom-fab" */
 .add-button {
-  background-color: #ccc; /* gris por defecto */
-  color: #fff;
+  background-color: #f2f2f2; /* Igual que .custom-fab en reposo */
+  color: #28a745;           /* Texto/icono en verde */
   border: none;
   font-size: 24px;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-  transition: background-color 0.3s ease;
+  box-shadow: 0 1.5px 1.5px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
 }
 
 .add-button:hover {
-  background-color: #28a745;
-}
+  background-color: #28a745; /* Se pone verde en hover */
+  border: 2px solid #28a745;
+  color: #fff;}
 </style>
