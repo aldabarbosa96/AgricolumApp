@@ -16,9 +16,10 @@ import Registro from '@/views/Registro.vue';
 import RecintosSolo from '@/views/RecintosSolo.vue';
 import FiltroColores from '@/views/FiltroColores.vue';
 
-// OJO: Eliminamos las líneas que causan conflicto
-// import path from 'path';
-// import { Component } from 'ionicons/dist/types/stencil-public-runtime';
+import { defineComponent } from 'vue';
+import { defineAsyncComponent } from 'vue'; 
+import path from 'path';
+import { Component } from 'ionicons/dist/types/stencil-public-runtime';
 
 const routes = [
   {

@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "declaration": false,
+    "emitDeclarationOnly": false,
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
@@ -11,11 +13,12 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
-    "noEmit": false,
+    "noEmit": true,
     "paths": {
       "@/*": ["./src/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "exclude": ["**/*.vue.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

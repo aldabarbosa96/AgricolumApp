@@ -96,9 +96,17 @@ export default {
           { label: 'Explotación 2', color: '#6495ED' }
         ],
         'Trabajos': [
-          { label: 'Siembra', color: '#90EE90' },
-          { label: 'Cosecha', color: '#FA8072' }
-        ],
+  { label: 'Siembra', color: '#90EE90' },  // Verde claro
+  { label: 'Cosecha', color: '#FA8072' },  // Rojo salmón
+  { label: 'Riego', color: '#1E90FF' },    // Azul dodger
+  { label: 'Fertilización', color: '#FFD700' },  // Dorado
+  { label: 'Poda', color: '#8B4513' },  // Marrón
+  { label: 'Control de plagas', color: '#DC143C' },  // Rojo carmesí
+  { label: 'Recolección', color: '#32CD32' },  // Verde lima
+  { label: 'Transporte', color: '#4682B4' },  // Azul acero
+  { label: 'Empaque', color: '#FF8C00' }  // Naranja oscuro
+],
+
         'Variedades': [
           { label: 'Variedad A', color: '#FFB6C1' },
           { label: 'Variedad B', color: '#DB7093' }

@@ -19,7 +19,7 @@
               <img src="/List.png" alt="Icono Tipo" class="option-icon" />
               <span class="option-label">
                 Tipo:
-                <span v-if="selectedTipo">{{ selectedTipo }}</span>
+                <span v-if="selectedTipo" class="selected-value">{{ selectedTipo }}</span>
                 <span v-else>Sin seleccionar</span>
               </span>
             </div>
@@ -57,7 +57,7 @@
               <img src="/Location3.png" alt="Icono Campo" class="option-icon" />
               <span class="option-label">
                 Campo:
-                <span v-if="selectedCampo">{{ selectedCampo }}</span>
+                <span v-if="selectedCampo" class="selected-value">{{ selectedCampo }}</span>
                 <span v-else>Sin seleccionar</span>
               </span>
             </div>
@@ -79,7 +79,7 @@
               <img src="/Worker.png" alt="Icono Trabajadores" class="option-icon" />
               <span class="option-label">
                 Trabajadores:
-                <span v-if="selectedTrabajadores.length">
+                <span v-if="selectedTrabajadores.length" class="selected-value">
                   {{ selectedTrabajadores.join(', ') }}
                 </span>
                 <span v-else>Sin seleccionar</span>
@@ -103,7 +103,7 @@
               <img src="/Tractor.png" alt="Icono Maquinaria" class="option-icon" />
               <span class="option-label">
                 Maquinaria:
-                <span v-if="selectedMaquinaria">{{ selectedMaquinaria }}</span>
+                <span v-if="selectedMaquinaria" class="selected-value">{{ selectedMaquinaria }}</span>
                 <span v-else>Sin seleccionar</span>
               </span>
             </div>
@@ -126,8 +126,9 @@
               <span class="option-label">Fecha</span>
             </div>
             <div class="option-date">
-              19 / 12 / 2024
-            </div>
+  {{ currentDate }}
+</div>
+
           </div>
         </div>
 
@@ -334,7 +335,6 @@
 </template>
 
 <script>
-/* (Igual que tu ejemplo) */
 import {
   IonPage,
   IonHeader,
@@ -350,7 +350,7 @@ import {
   IonTextarea,
   IonInput
 } from '@ionic/vue';
-
+import dayjs from 'dayjs';
 import ConfirmToolbar from '@/components/ConfirmToolbar.vue';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
@@ -371,6 +371,12 @@ export default {
     IonTextarea,
     IonInput,
     ConfirmToolbar
+  },
+
+  computed: {
+    currentDate() {
+      return dayjs().format('DD / MM / YYYY');
+    }
   },
   data() {
     return {
@@ -591,7 +597,7 @@ ion-header.custom-header {
 .option-item {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* para separar .option-left y .option-right */
+  justify-content: space-between;
   padding: 5px 0;
 }
 .option-left {
@@ -605,14 +611,19 @@ ion-header.custom-header {
   margin-left: 20px;
   object-fit: contain;
 }
+/* Títulos de cada campo en color #8E8E8E */
 .option-label {
   font-size: 16px;
-  color: #28a745;
+  color: #8E8E8E;
   font-weight: 500;
   margin-left: 20px;
 }
+/* Al seleccionar un valor, se muestra en verde */
+.selected-value {
+  color: #28a745;
+}
 
-/* A la derecha tenemos un contenedor con ancho fijo => alinea todo */
+/* Contenedor derecho con ancho fijo */
 .option-right {
   display: flex;
   align-items: center;
@@ -620,7 +631,6 @@ ion-header.custom-header {
   width: 50px; 
 }
 
-/* Los botones + y el checkbox usan .option-plus para tamaño, etc. */
 .option-plus {
   font-size: 25px;
 }
@@ -701,7 +711,6 @@ ion-button[color="success"] {
   --background-focused: #21893a !important;
   --color: #fff !important;
 }
-/* Botones en modal y adjuntos => verde oscuro */
 .modal-buttons ion-button[color="success"],
 .attachments ion-button[color="success"] {
   --background: #1e7e34 !important;
@@ -709,7 +718,6 @@ ion-button[color="success"] {
   --background-focused: #21893a !important;
   --color: #fff !important;
 }
-/* custom-success para IonButton con shadow parts */
 .custom-success::part(native) {
   background: #1e7e34 !important;
   color: #fff !important;

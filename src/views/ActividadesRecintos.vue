@@ -1,8 +1,17 @@
 <template>
   <ion-page :class="{ 'fade-out': fadeOut }">
-    <!-- Cabecera con título adaptado -->
+    <!-- Cabecera con botón de Back y título adaptado -->
     <ion-header class="custom-header">
-      <ion-title class="title">Gestión de Campos</ion-title>
+      <ion-toolbar>
+        <!-- BOTÓN BACK -->
+        <ion-buttons slot="start">
+          <ion-button @click="goBack">
+            <img src="/chevron_left_thin.png" class="back-icon" alt="Volver" />
+          </ion-button>
+        </ion-buttons>
+        
+        <ion-title class="title">Gestión de Campos</ion-title>
+      </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true" class="custom-content">
@@ -85,7 +94,7 @@
 </template>
 
 <script>
-import { IonPage, IonHeader, IonTitle, IonContent } from '@ionic/vue';
+import { IonPage, IonHeader, IonTitle, IonContent, IonButtons, IonButton } from '@ionic/vue';
 import Toolbar from '@/components/Toolbar.vue';
 
 export default {
@@ -95,6 +104,8 @@ export default {
     IonHeader,
     IonTitle,
     IonContent,
+    IonButtons,
+    IonButton,
     Toolbar
   },
   data() {
@@ -103,6 +114,10 @@ export default {
     };
   },
   methods: {
+    goBack() {
+      // Regresa a la vista anterior
+      this.$router.back();
+    },
     goToActividades() {
       // Navega a la ruta con name "Actividades"
       this.$router.push({ name: 'Actividades' });
@@ -115,6 +130,23 @@ export default {
 /* CABECERA */
 ion-header.custom-header {
   box-shadow: none;
+}
+
+/* Ajuste para la barra de herramientas y el botón "back" */
+ion-toolbar {
+  --ion-title-text-align: center;
+  display: flex;
+  align-items: center;
+}
+ion-buttons[slot="start"] {
+  margin-top: 15px;
+  margin-left: 10px;
+  margin-right: -35px;
+}
+
+.back-icon {
+  width: 10px;
+  height: 20px;
 }
 
 .title {
